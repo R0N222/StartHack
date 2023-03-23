@@ -37,7 +37,11 @@ dependencies:
     sdk: flutter
 
   provider: 6.0.3
-  google_fonts: 3.0.1
+  google_fonts: 4.0.3
+  fl_chart: ^0.61.0
+  animate_do: ^2.1.0
+  iconsax: ^0.0.8
+  salomon_bottom_bar: ^3.3.1
 
 
 
