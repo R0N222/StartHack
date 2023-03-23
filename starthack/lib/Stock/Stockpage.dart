@@ -89,7 +89,7 @@ class SummaryWidget extends StatelessWidget {
       child: Center(
         child: Column(
           children: [
-            Container(Text("Summary")),
+            Container(child: Text("Summary")),
             FutureBuilder(
               future: summarize(name),
               builder: (context, snapshot) {
