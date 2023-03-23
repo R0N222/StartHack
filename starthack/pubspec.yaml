@@ -35,6 +35,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+<<<<<<< Updated upstream
 
   provider: 6.0.3
   google_fonts: 4.0.3
@@ -44,11 +45,19 @@ dependencies:
   salomon_bottom_bar: ^3.3.1
   shared_preferences: ^2.0.20
 
+=======
+  provider: 6.0.3
+  cupertino_icons: ^1.0.2
+>>>>>>> Stashed changes
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
+<<<<<<< Updated upstream
   cupertino_icons: ^1.0.2
   http: ^0.13.5
+=======
+
+>>>>>>> Stashed changes
 dev_dependencies:
   flutter_test:
     sdk: flutter
