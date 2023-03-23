@@ -36,7 +36,9 @@ dependencies:
   flutter:
     sdk: flutter
 
-    provider: 6.0.3
+  provider: 6.0.3
+  google_fonts: 3.0.1
+
 
 
 
