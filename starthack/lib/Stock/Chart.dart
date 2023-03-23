@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-class LineChartWidget extends StatelessWidget {
+class SmallLineChartWidget extends StatelessWidget {
   final List<Color> gradientColors = [
     const Color(0xff23b6e6),
     const Color(0xff02d39a),

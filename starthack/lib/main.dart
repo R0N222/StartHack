@@ -37,7 +37,7 @@ class SmallChartWidget extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(top: 16),
                 child: 
-                  LineChartWidget()
+                  SmallLineChartWidget()
               ),
             ),
           ],
