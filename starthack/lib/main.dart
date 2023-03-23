@@ -25,10 +25,21 @@ class SmallChartWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     
     return Container(
-      child: SmallLineChartWidget(),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-        color: Colors.white,
+      height: 200,
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: PageView(
+          children: [
+            Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(32),
+              ),
+              color: const Color(0xff020227),
+              child: Padding(padding: const EdgeInsets.only(top: 16), child: SmallLineChartWidget()),
+            ),
+          ],
+        ),
       ),
     );
       
