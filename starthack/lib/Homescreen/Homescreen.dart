@@ -36,7 +36,7 @@ class HomeScreenWidget extends StatelessWidget {
                         height: 350,
                       ),
                       TextSeperatorWidget(text: "My Watchlist"),
-                      StockListElement(name: "Tesla"),
+                      StockListElement(name: myWatchList[index]),
                     ]);
                   } else if (index < myWatchList.length) return StockListElement(name: myWatchList[index]);
                   if (index == myWatchList.length) {
@@ -72,7 +72,7 @@ class TextSeperatorWidget extends StatelessWidget {
           text,
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        margin: EdgeInsets.only(left: 30, top: 10),
+        margin: const EdgeInsets.only(left: 30, top: 10),
         alignment: Alignment.centerLeft,
       ),
     );
@@ -130,6 +130,7 @@ class StockListElement extends StatelessWidget {
           ),
         ),
         onTap: () {
+          currentStock = name;
           Navigator.pushNamed(context, '/stock');
         },
       ),

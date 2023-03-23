@@ -19,7 +19,7 @@ class SliverListBldr extends StatelessWidget {
           if (index == 0 && myWatchList.length > 0) {
             return Column(children: [
               TextSeperatorWidget(text: "My Watchlist"),
-              StockListElement(name: "Tesla"),
+              StockListElement(name: myWatchList[index]),
             ]);
           } else if (index < myWatchList.length) return StockListElement(name: myWatchList[index]);
           if (index == myWatchList.length) {
