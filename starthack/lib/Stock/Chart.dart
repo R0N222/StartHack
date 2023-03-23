@@ -23,6 +23,9 @@ class SmallLineChartWidget extends StatelessWidget {
           titlesData: FlTitlesData(
             show: false,
           ),
+          lineTouchData: LineTouchData(
+            enabled: false
+          ),
           lineBarsData: [
             LineChartBarData(
               spots: [
