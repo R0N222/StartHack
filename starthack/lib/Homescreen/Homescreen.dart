@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:starthack/main.dart';
 import 'package:starthack/shared/StockPictures.dart';
 import 'package:starthack/shared/Data.dart';
 
@@ -91,19 +92,25 @@ class StockListElement extends StatelessWidget {
       child: ListTile(
         title: Container(
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                child: CircleAvatar(
-                  backgroundImage: NetworkImage('https://logo.clearbit.com/' + name + '.com'),
-                ),
-                margin: EdgeInsets.only(left: 20),
+              Row(
+                children: [
+                  Container(
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage('https://logo.clearbit.com/' + name + '.com'),
+                    ),
+                    margin: EdgeInsets.only(left: 20),
+                  ),
+                  Container(
+                    child: Text(
+                      name,
+                    ),
+                    margin: EdgeInsets.only(left: 50, top: 10),
+                  ),
+                ],
               ),
-              Container(
-                child: Text(
-                  name,
-                ),
-                margin: EdgeInsets.only(left: 50, top: 10),
-              )
+              ChartViewHomepageWidget(values: [3,3234,342,32],percent:10),
             ],
           ),
           height: 100,
@@ -126,6 +133,44 @@ class StockListElement extends StatelessWidget {
           Navigator.pushNamed(context, '/stock');
         },
       ),
+    );
+  }
+}
+
+class ChartViewHomepageWidget extends StatelessWidget {
+  final List<double> values;
+  final double percent;
+
+  const ChartViewHomepageWidget({
+    super.key, required this.values, required this.percent
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Container(
+          child: SmallChartWidget(),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+          ),
+          width: 120),
+        Container(
+          child: Text("$percent%"),
+          width: 90,
+          height: 90,
+          alignment: Alignment.bottomRight,
+          ),
+        Container(
+          child: Container(
+            child: Image.asset( percent<0 ? 'assets/images/ArrowDown.png': 'assets/images/ArrowUp.png'),
+            width: 9,
+            height: 40,
+          ),
+          alignment: Alignment.bottomRight,
+          width: 102,
+        )
+      ],
     );
   }
 }

@@ -3,8 +3,13 @@ import 'package:flutter/material.dart';
 
 class SmallLineChartWidget extends StatelessWidget {
   final List<Color> gradientColors = [
-    const Color(0xff23b6e6),
-    const Color(0xff02d39a),
+    const Color(0xff0E0741),
+    const Color(0xff8236FD),
+  ];
+
+  final List<Color> gradientColors2 = [
+    const Color(0xff8236FD),
+    Color.fromARGB(255, 255, 255, 255),
   ];
 
   @override
@@ -31,8 +36,13 @@ class SmallLineChartWidget extends StatelessWidget {
               ],
               isCurved: true,
               gradient: LinearGradient(colors: gradientColors),
-              barWidth: 5,
-              dotData: FlDotData(show: false)
+              barWidth: 3,
+              dotData: FlDotData(show: false),
+              belowBarData: BarAreaData(
+                show:true,
+                gradient: LinearGradient(colors: gradientColors2.map((color)=> color.withOpacity(0.3)).toList(), begin: Alignment.topCenter, end: Alignment.bottomCenter)
+
+              )
             ),
           ],
           gridData: FlGridData(drawHorizontalLine: false, drawVerticalLine: false )

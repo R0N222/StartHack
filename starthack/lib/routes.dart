@@ -6,5 +6,5 @@ import 'package:starthack/main.dart';
 
 var appRoutes = {
   '/': (context) => const HomePage(title: "Home"),
-  '/stock': (context) => const StockScreenWidget(),
+  '/stock': (context) => const SmallChartWidget(),
 };
