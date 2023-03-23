@@ -10,30 +10,69 @@ class HomeScreenWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
-        itemBuilder: (context, index) {
-          if (index < myWatchList.length) return StockListElement(name: myWatchList[index]);
-          if (index == myWatchList.length) {
-            return Column(
-              children: [
-                Container(
-                  height: 60,
-                  child: Container(
-                    child: Text(
-                      "Discovery",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    margin: EdgeInsets.only(left: 10, top: 20),
-                  ),
+      body: Stack(children: [
+        Container(
+          color: const Color.fromARGB(255, 135, 33, 243),
+        ),
+        Container(
+          child: Stack(children: [
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(40),
+                  topRight: Radius.circular(40),
                 ),
-                StockListElement(name: "Tesla"),
-              ],
-            );
-          } else {
-            return StockListElement(name: "Tesla");
-          }
-        },
-        padding: EdgeInsets.only(top: 300),
+              ),
+              margin: EdgeInsets.only(top: 300),
+            ),
+            Container(
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  if (index == 0 && myWatchList.length > 0) {
+                    return Column(children: [
+                      Container(
+                        height: 350,
+                      ),
+                      TextSeperatorWidget(text: "My Watchlist"),
+                      StockListElement(name: "Tesla"),
+                    ]);
+                  } else if (index < myWatchList.length) return StockListElement(name: myWatchList[index]);
+                  if (index == myWatchList.length) {
+                    return Column(
+                      children: [
+                        TextSeperatorWidget(text: "Discovery"),
+                        StockListElement(name: "Tesla"),
+                      ],
+                    );
+                  } else {
+                    return StockListElement(name: "Tesla");
+                  }
+                },
+              ),
+            ),
+          ]),
+        ),
+      ]),
+    );
+  }
+}
+
+class TextSeperatorWidget extends StatelessWidget {
+  final String text;
+  const TextSeperatorWidget({super.key, required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 60,
+      child: Container(
+        child: Text(
+          text,
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        margin: EdgeInsets.only(left: 30, top: 10),
+        alignment: Alignment.centerLeft,
       ),
     );
   }
