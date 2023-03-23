@@ -35,7 +35,11 @@ class SmallChartWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(32),
               ),
               color: const Color(0xff020227),
-              child: Padding(padding: const EdgeInsets.only(top: 16), child: LineChartWidget()),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: 
+                  SmallLineChartWidget()
+              ),
             ),
           ],
         ),
