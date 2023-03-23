@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 import './apikeys.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import './Data.dart';
 
 Future<String> summarize(String name) async {
   return generateResponse("Summarize information about the Stock/Company: $name in 2 sentences.");
+}
+
+Future<String> questionToCurrentStock(String question) async {
+  return generateResponse("Anwser the following question concerning $currentStock. If the question is not relevant to the topic, say: Pls only ask questions related to the Stock. " + question);
 }
 
 Future<String> generateResponse(String prompt) async {
