@@ -1,3 +1,7 @@
+
+
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:starthack/Stock/Chart.dart';
@@ -135,6 +139,8 @@ class StockScreenWidget extends StatelessWidget {
               case 1:
                 // Summary here
                 return SummaryWidget(name: name);
+              case 2:
+                return SectorWidget(sector: 'Automobile');
               default:
                 return Container(
                   height: 300,
@@ -147,6 +153,50 @@ class StockScreenWidget extends StatelessWidget {
   }
 }
 
+class SectorWidget extends StatelessWidget {
+  final String sector;
+
+  const SectorWidget({super.key, required this.sector});
+
+  @override
+  Widget build(BuildContext context){
+    return Center(
+      child: Container(
+        child: Stack(
+          children: [
+            Container(
+              child: Text(sector, style: TextStyle(color: Color(0xff6e28f9), fontSize: 25)),
+              margin: EdgeInsets.only(left: 40, top: 40),
+              ),
+              Container(
+              child: Text('Business sector', style: TextStyle(color: Color(0xff65616d), fontSize: 17)),
+              margin: EdgeInsets.only(left: 40, top: 73),
+              ),
+              Container(
+              child: Image.asset('assets/images/EPS-Picture.png'),
+              margin: EdgeInsets.only(left: 220, top: 15),
+              height: 110,
+              width: 110,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                color: Color(0xffF0F0F4),
+              )
+              )
+          ],
+        ),
+        height: 140,
+        width: 350,
+        margin: EdgeInsets.only(top: 30),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          color: Color(0xfff7f7f7),
+        )
+      ),
+      
+    );
+  }
+
+}
 class SummaryWidget extends StatelessWidget {
   final String name;
 

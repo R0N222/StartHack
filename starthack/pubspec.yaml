@@ -1,243 +1,115 @@
-import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
-import 'package:starthack/Stock/Chart.dart';
-import 'package:starthack/shared/AI.dart';
-import 'package:starthack/shared/Data.dart';
+name: starthack
+description: A new Flutter project.
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-class BigLineChart extends StatelessWidget {
-  final List<Color> gradientColors = [
-    const Color(0xff23b6e6),
-    const Color(0xff02d39a),
-  ];
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+# In Windows, build-name is used as the major, minor, and patch parts
+# of the product and file versions while build-number is used as the build suffix.
+version: 1.0.0+1
 
-  @override
-  Widget build(BuildContext context) => LineChart(
-        LineChartData(
-            minX: 0,
-            maxX: 11,
-            minY: 0,
-            maxY: 6,
-            borderData: FlBorderData(show: false),
-            titlesData: FlTitlesData(rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)), topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false))),
-            lineBarsData: [
-              LineChartBarData(spots: [
-                FlSpot(0, 3),
-                FlSpot(2.6, 2),
-                FlSpot(4.9, 5),
-                FlSpot(6.8, 2.5),
-                FlSpot(8, 4),
-                FlSpot(9.5, 3),
-                FlSpot(11, 4),
-              ], isCurved: true, gradient: LinearGradient(colors: gradientColors), barWidth: 5, dotData: FlDotData(show: false)),
-            ],
-            gridData: FlGridData(drawHorizontalLine: false, drawVerticalLine: false)),
-      );
-}
+environment:
+  sdk: '>=3.0.0-348.0.dev <4.0.0'
 
-class StockScreenWidget extends StatelessWidget {
-  final String name;
-  const StockScreenWidget({super.key, required this.name});
+# add provider package
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(children: [
-        new Container(
-          color: Colors.white,
-        ),
-        ListView.builder(
-          itemBuilder: (context, index) {
-            switch (index) {
-              case 0:
-                // Chart here
-                return Container(
-                  height: 300,
-                );
-              case 1:
-                // Summary here
-                return SummaryWidget(name: name);
-              default:
-                return Container(
-                  height: 300,
-                );
-            }
-          },
-        ),
-      ]),
-    ); //LineChartWidget()
-  }
-}
 
-class SummaryWidget extends StatefulWidget {
-  final String name;
 
-  const SummaryWidget({super.key, required this.name});
 
-  @override
-  State<SummaryWidget> createState() => _SummaryWidgetState();
-}
+# Dependencies specify other packages that your package needs in order to work.
+# To automatically upgrade your package dependencies to the latest versions
+# consider running `flutter pub upgrade --major-versions`. Alternatively,
+# dependencies can be manually updated by changing the version numbers below to
+# the latest version available on pub.dev. To see which dependencies have newer
+# versions available, run `flutter pub outdated`.
+dependencies:
+  flutter:
+    sdk: flutter
 
-class _SummaryWidgetState extends State<SummaryWidget> {
-  bool isExpanded = false;
-  String currentPrompt = "";
-  List<String> conversation = [];
-  var msgController = TextEditingController();
+  provider: 6.0.3
+  google_fonts: 4.0.3
+  fl_chart: ^0.61.0
+  animate_do: ^2.1.0
+  iconsax: ^0.0.8
+  salomon_bottom_bar: ^3.3.1
+  shared_preferences: ^2.0.20
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Column(
-          children: [
-            Container(
-              child: Image.asset("assets/images/AI_Icon.png"),
-              alignment: Alignment.centerLeft,
-              height: 40,
-              margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-            ),
-            FutureBuilder(
-              future: summarize(widget.name),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Column(
-                    children: [
-                      Container(
-                        child: Text(snapshot.data.toString(), style: TextStyle(fontSize: 19)),
-                        margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                      ),
-                      Builder(builder: (context) {
-                        List<Widget> widgets = [];
-                        for (int i = 0; i < conversation.length; i++) {
-                          if (i % 2 == 0) {
-                            var c = Container(
-                              color: Colors.white,
-                              child: Text(conversation[i], style: TextStyle(fontSize: 19)),
-                              padding: EdgeInsets.fromLTRB(120, 20, 120, 20),
-                            );
-                            widgets.add(c);
-                          } else {
-                            var c = Container(
-                              color: const Color.fromARGB(255, 208, 208, 208),
-                              child: Text(conversation[i], style: TextStyle(fontSize: 19)),
-                              padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
-                            );
-                            widgets.add(c);
-                          }
-                        }
-                        return new Column(children: widgets);
-                      }),
-                      !isExpanded
-                          ? AskAnyQuestionsWidget(function: () {
-                              setState(() {
-                                isExpanded = true;
-                              });
-                            })
-                          : Container(
-                              alignment: Alignment.centerLeft,
-                              margin: EdgeInsets.fromLTRB(15, 35, 0, 0),
-                              child: Container(
-                                margin: EdgeInsets.fromLTRB(10, 0, 25, 0),
-                                height: 60,
-                                width: 900,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50.0),
-                                  color: Colors.white,
-                                ),
-                                child: Stack(
-                                  children: [
-                                    IconButton(
-                                      icon: Image.asset("assets/images/SubmitButton.png"),
-                                      onPressed: () async {
-                                        setState(() => conversation.add(currentPrompt));
-                                        msgController.clear();
 
-                                        var temp = currentPrompt;
 
-                                        var ret = await questionToCurrentStock(temp);
-                                        setState(() => conversation.add(ret));
-                                        setState(() => currentPrompt = "");
-                                      },
-                                      padding: EdgeInsets.only(left: 320.0, top: 15),
-                                      alignment: Alignment.centerRight,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                                      child: TextFormField(
-                                        controller: msgController,
-                                        textAlignVertical: TextAlignVertical.center,
-                                        onChanged: (value) async {
-                                          setState(() {
-                                            currentPrompt = value;
-                                          });
-                                        },
-                                        decoration: InputDecoration(
-                                          contentPadding: EdgeInsets.only(bottom: 10),
-                                          enabledBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(color: Colors.transparent),
-                                          ),
-                                          focusedBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(color: Colors.transparent),
-                                          ),
-                                          hintText: 'Ask me anything about ${currentStock}',
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                    ],
-                  );
-                } else {
-                  return CircularProgressIndicator();
-                }
-              },
-            ),
-          ],
-        ),
-      ),
-      color: Color.fromARGB(255, 250, 250, 250),
-      height: 400 + conversation.length * 200,
-    );
-  }
-}
 
-class AskAnyQuestionsWidget extends StatelessWidget {
-  final Function function;
-  const AskAnyQuestionsWidget({
-    super.key,
-    required this.function,
-  });
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.centerLeft,
-      margin: EdgeInsets.fromLTRB(15, 35, 0, 0),
-      child: Stack(
-        children: [
-          Container(
-            child: Container(
-              child: Text("Any Questions?", style: TextStyle(fontSize: 19)),
-              margin: EdgeInsets.fromLTRB(70, 15, 0, 0),
-            ),
-            margin: EdgeInsets.fromLTRB(20, 10, 0, 0),
-            width: 300,
-            height: 60,
-            decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 231, 231, 237),
-              borderRadius: BorderRadius.all(Radius.circular(30)),
-            ),
-          ),
-          IconButton(
-            onPressed: () {
-              function();
-            },
-            icon: Image.asset("assets/images/QuestionIcon.png"),
-            iconSize: 60,
-          ),
-        ],
-      ),
-    );
-  }
-}
+  cupertino_icons: ^1.0.2
+  http: ^0.13.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+  flutter_lints: ^2.0.0
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/images/banner.jpg
+    - assets/images/ArrowUp.png
+    - assets/images/ArrowDown.png
+    - assets/images/SearchButton.png
+    - assets/images/ArrowUpWhite.png
+    - assets/images/ArrowDownWhite.png
+    - assets/images/AddToWatchlistButton.png
+    - assets/images/InWhitelistButton.png
+    - assets/images/EPS-Picture.png
+  #   - images/a_dot_ham.jpeg
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/assets-and-images/#resolution-aware
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/assets-and-images/#from-packages
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages
