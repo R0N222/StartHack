@@ -53,7 +53,8 @@ class BigLineChart extends StatelessWidget {
 class StockScreenWidget extends StatelessWidget {
   final String name;
   final double percent;
-  const StockScreenWidget({super.key, required this.name, required this.percent});
+  final bool inwlist;
+  const StockScreenWidget({super.key, required this.name, required this.percent, required this.inwlist});
 
   @override
   Widget build(BuildContext context) {
@@ -85,15 +86,24 @@ class StockScreenWidget extends StatelessWidget {
                           margin: EdgeInsets.only(left: 10, top: 20),
                         ),
                         Container(
+                          child: Container(
+                            child: Image.asset(inwlist ? 'assets/images/InWhitelistButton.png': 'assets/images/AddToWatchlistButton.png'),
+                            width: 10,
+                            height: 40,
+                          ),
+                          width: 35,
+                          margin: EdgeInsets.only(left:7, top: 23),
+                        ),
+                        Container(
                           child: Text(
                             (percent<0 ? '-$percent%' : '+$percent%'), style: TextStyle(fontSize: 22, color: Color(0xffccc8d8))
                           ),
                           width: 80,
-                          margin: EdgeInsets.only(left: 98, top: 23),
+                          margin: EdgeInsets.only(left: 60, top: 23),
                         ),
                         Container(
                           child: Container(
-                            child: Image.asset( percent<0 ? 'assets/images/ArrowDown.png': 'assets/images/ArrowUp.png'),
+                            child: Image.asset( percent<0 ? 'assets/images/ArrowDownWhite.png': 'assets/images/ArrowUpWhite.png'),
                             width: 1,
                             height: 20,
                           ),
@@ -116,15 +126,15 @@ class StockScreenWidget extends StatelessWidget {
                       child: Row(
                         children: [
                           MaterialButton(onPressed: (){
-                          }, child: Text('1W', style: TextStyle(color: Color(0xfff7f7f7))), color: Color(0xff7245F7), height: 30, minWidth: 35, hoverColor: Color(0xff825FFF)),
+                          }, child: Text('1W', style: TextStyle(color: Color(0xfff7f7f7))), color: Color(0xff7245F7), height: 30, minWidth: 35, hoverColor: Color(0xff825FFF), shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(7)))),
                           MaterialButton(onPressed: (){
-                          }, child: Text('1M', style: TextStyle(color: Color(0xfff7f7f7))), color: Color(0xff7245F7), height: 30, minWidth: 35, hoverColor: Color(0xff825FFF)),
+                          }, child: Text('1M', style: TextStyle(color: Color(0xfff7f7f7))), color: Color(0xff7245F7), height: 30, minWidth: 35, hoverColor: Color(0xff825FFF), shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(7)))),
                           MaterialButton(onPressed: (){
-                          }, child: Text('3M', style: TextStyle(color: Color(0xfff7f7f7))), color: Color(0xff7245F7), height: 30, minWidth: 35, hoverColor: Color(0xff825FFF)),
+                          }, child: Text('3M', style: TextStyle(color: Color(0xfff7f7f7))), color: Color(0xff7245F7), height: 30, minWidth: 35, hoverColor: Color(0xff825FFF), shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(7)))),
                           MaterialButton(onPressed: (){
-                          }, child: Text('1Y', style: TextStyle(color: Color(0xfff7f7f7))), color: Color(0xff7245F7), height: 30, minWidth: 35, hoverColor: Color(0xff825FFF)),
+                          }, child: Text('1Y', style: TextStyle(color: Color(0xfff7f7f7))), color: Color(0xff7245F7), height: 30, minWidth: 35, hoverColor: Color(0xff825FFF), shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(7)))),
                           MaterialButton(onPressed: (){
-                          }, child: Text('all', style: TextStyle(color: Color(0xfff7f7f7))), color: Color(0xff7245F7), height: 30, minWidth: 35, hoverColor: Color(0xff825FFF)),
+                          }, child: Text('all', style: TextStyle(color: Color(0xfff7f7f7))), color: Color(0xff7245F7), height: 30, minWidth: 35, hoverColor: Color(0xff825FFF), shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(7)))),
                         ],
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       ),
