@@ -20,6 +20,7 @@ class SliverAppBarBldr extends StatelessWidget {
           color: Color.fromARGB(255, 110, 40, 249),
         ),
         /*Image(
+          
           image: AssetImage('assets/images/banner.jpg'),
           fit: BoxFit.cover,
         ),*/
