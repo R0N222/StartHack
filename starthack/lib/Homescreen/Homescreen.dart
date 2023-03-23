@@ -163,7 +163,7 @@ class ChartViewHomepageWidget extends StatelessWidget {
             ),
             width: 120),
         Container(
-          child: Text("$percent%"),
+          child: Text("$percent%", style: TextStyle(color: const Color.fromARGB(255, 26, 25, 28))),
           width: 90,
           height: 90,
           alignment: Alignment.bottomRight,
@@ -175,7 +175,8 @@ class ChartViewHomepageWidget extends StatelessWidget {
             height: 40,
           ),
           alignment: Alignment.bottomRight,
-          width: 102,
+          width: 100,
+          padding: EdgeInsets.only(left: 40, top: 60),
         )
       ],
     );
