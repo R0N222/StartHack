@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:starthack/main.dart';
 import 'package:starthack/shared/StockPictures.dart';
 import 'package:starthack/shared/Data.dart';
+import 'package:starthack/Stock/Chart.dart';
 
+/*
 class HomeScreenWidget extends StatelessWidget {
   const HomeScreenWidget({super.key});
 
@@ -57,7 +59,7 @@ class HomeScreenWidget extends StatelessWidget {
       ]),
     );
   }
-}
+}*/
 
 class TextSeperatorWidget extends StatelessWidget {
   final String text;
@@ -70,9 +72,9 @@ class TextSeperatorWidget extends StatelessWidget {
       child: Container(
         child: Text(
           text,
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
-        margin: const EdgeInsets.only(left: 30, top: 10),
+        margin: const EdgeInsets.only(left: 25, top: 10),
         alignment: Alignment.centerLeft,
       ),
     );
@@ -102,31 +104,37 @@ class StockListElement extends StatelessWidget {
                     ),
                     margin: EdgeInsets.only(left: 20),
                   ),
-                  Container(
-                    child: Text(
-                      name,
-                    ),
-                    margin: EdgeInsets.only(left: 50, top: 10),
+                  Column(
+                    children: [
+                      Container(
+                        child: Text(
+                          name,
+                        ),
+                        margin: EdgeInsets.only(left: 50, top: 15),
+                        width: 100,
+                      ),
+                      Container(
+                        child: Text(
+                          "19.99 €",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(color: const Color.fromARGB(255, 26, 25, 28)),
+                        ),
+                        margin: EdgeInsets.only(left: 50, top: 5),
+                        width: 100,
+                      ),
+                    ],
                   ),
                 ],
               ),
-              ChartViewHomepageWidget(values: [3,3234,342,32],percent:10),
+              ChartViewHomepageWidget(values: [3, 3234, 342, 32], percent: 10),
             ],
           ),
-          height: 100,
+          height: 80, // 1080 * 2400
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: const Color.fromARGB(255, 240, 240, 244),
             borderRadius: BorderRadius.all(
               Radius.circular(20),
             ),
-            boxShadow: [
-              BoxShadow(
-                color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.5),
-                spreadRadius: 1,
-                blurRadius: 2,
-                offset: Offset(0, 3), // changes position of shadow
-              ),
-            ],
           ),
         ),
         onTap: () {
@@ -142,29 +150,27 @@ class ChartViewHomepageWidget extends StatelessWidget {
   final List<double> values;
   final double percent;
 
-  const ChartViewHomepageWidget({
-    super.key, required this.values, required this.percent
-  });
+  const ChartViewHomepageWidget({super.key, required this.values, required this.percent});
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         Container(
-          child: SmallChartWidget(),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-          ),
-          width: 120),
+            child: SmallChartWidget(),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+            ),
+            width: 120),
         Container(
           child: Text("$percent%"),
           width: 90,
           height: 90,
           alignment: Alignment.bottomRight,
-          ),
+        ),
         Container(
           child: Container(
-            child: Image.asset( percent<0 ? 'assets/images/ArrowDown.png': 'assets/images/ArrowUp.png'),
+            child: Image.asset(percent < 0 ? 'assets/images/ArrowDown.png' : 'assets/images/ArrowUp.png'),
             width: 9,
             height: 40,
           ),
@@ -172,6 +178,23 @@ class ChartViewHomepageWidget extends StatelessWidget {
           width: 102,
         )
       ],
+    );
+  }
+}
+
+class SmallChartWidget extends StatelessWidget {
+  const SmallChartWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: SmallLineChartWidget(),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        color: const Color.fromARGB(255, 240, 240, 244),
+      ),
     );
   }
 }

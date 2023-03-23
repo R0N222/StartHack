@@ -8,18 +8,22 @@ class SliverAppBarBldr extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: Color.fromARGB(255, 110, 40, 249),
       elevation: 0,
       pinned: true,
       centerTitle: false,
       stretch: true,
       expandedHeight: 300.0,
-      flexibleSpace: const FlexibleSpaceBar(
+      flexibleSpace: FlexibleSpaceBar(
         stretchModes: [StretchMode.zoomBackground],
-        background: Image(
+        background: Container(
+          color: Color.fromARGB(255, 110, 40, 249),
+        ),
+        /*Image(
+          
           image: AssetImage('assets/images/banner.jpg'),
           fit: BoxFit.cover,
-        ),
+        ),*/
       ),
     );
   }

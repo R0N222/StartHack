@@ -42,8 +42,7 @@ dependencies:
   animate_do: ^2.1.0
   iconsax: ^0.0.8
   salomon_bottom_bar: ^3.3.1
-
-
+  shared_preferences: ^2.0.20
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -77,6 +76,7 @@ flutter:
     - assets/images/banner.jpg
     - assets/images/ArrowUp.png
     - assets/images/ArrowDown.png
+    - assets/images/SearchButton.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
