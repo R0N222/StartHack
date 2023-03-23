@@ -13,7 +13,7 @@ class SliverSearch extends StatelessWidget {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       elevation: 0,
       pinned: true,
-      bottom: const PreferredSize(preferredSize: Size.fromHeight(-10.0), child: SizedBox()),
+      bottom: const PreferredSize(preferredSize: Size.fromHeight(0.0), child: SizedBox()),
       flexibleSpace: const SearchBar(),
     );
   }
@@ -24,45 +24,57 @@ class SearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: kPadding,
-      child: Container(
-        margin: EdgeInsets.zero,
-        color: Colors.transparent,
-        child: Container(
-          margin: EdgeInsets.zero,
-          width: MediaQuery.of(context).size.width,
-          height: 60,
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey),
-            borderRadius: kBorderRadius / 2,
-            color: Theme.of(context).scaffoldBackgroundColor,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: TextFormField(
-              textAlignVertical: TextAlignVertical.center,
-              onChanged: (value) {},
-              decoration: const InputDecoration(
-                contentPadding: EdgeInsets.only(top: 12.0),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.transparent),
+    return Container(
+      child: Stack(
+        children: [
+          Container(
+            color: const Color.fromARGB(255, 110, 40, 249),
+            child: Container(
+              margin: EdgeInsets.only(top: 80),
+              decoration: BoxDecoration(
+                color: Color.fromARGB(255, 247, 247, 247),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(25),
+                  topRight: Radius.circular(25),
                 ),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.transparent),
-                ),
-                prefixIcon: Padding(
-                  padding: EdgeInsets.only(top: 12.0),
-                  child: Icon(
-                    Icons.search,
-                    color: Colors.grey,
-                  ),
-                ),
-                hintText: 'Search for Stocks...',
               ),
             ),
           ),
-        ),
+          Container(
+            margin: EdgeInsets.fromLTRB(40, 0, 40, 0),
+            height: 60,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50.0),
+              color: Theme.of(context).scaffoldBackgroundColor,
+            ),
+            child: Stack(
+              children: [
+                Container(
+                  child: Image.asset("assets/images/SearchButton.png"),
+                  //padding: EdgeInsets.only(left: 268.0),
+                  alignment: Alignment.centerRight,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                  child: TextFormField(
+                    textAlignVertical: TextAlignVertical.center,
+                    onChanged: (value) {},
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.only(bottom: 10),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.transparent),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.transparent),
+                      ),
+                      hintText: 'Search for Stocks...',
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

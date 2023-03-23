@@ -15,23 +15,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-class SmallChartWidget extends StatelessWidget {
-  const SmallChartWidget({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    
-    return Container(
-      child: SmallLineChartWidget(),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-        color: Colors.white,
-      ),
-    );
-      
-      
-  }
-}
