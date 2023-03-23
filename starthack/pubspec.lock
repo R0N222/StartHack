@@ -216,6 +216,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.3"
+<<<<<<< Updated upstream
   path_provider:
     dependency: transitive
     description:
@@ -288,6 +289,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.2.4"
+=======
+>>>>>>> Stashed changes
   provider:
     dependency: "direct main"
     description:
@@ -447,4 +450,8 @@ packages:
     version: "1.0.0"
 sdks:
   dart: ">=3.0.0-348.0.dev <4.0.0"
+<<<<<<< Updated upstream
   flutter: ">=3.0.0"
+=======
+  flutter: ">=1.16.0"
+>>>>>>> Stashed changes
