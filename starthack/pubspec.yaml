@@ -77,6 +77,10 @@ flutter:
     - assets/images/ArrowUp.png
     - assets/images/ArrowDown.png
     - assets/images/SearchButton.png
+    - assets/images/ArrowUpWhite.png
+    - assets/images/ArrowDownWhite.png
+    - assets/images/AddToWatchlistButton.png
+    - assets/images/InWhitelistButton.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
