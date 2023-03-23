@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:starthack/Stock/Chart.dart';
@@ -95,7 +97,7 @@ class StockScreenWidget extends StatelessWidget {
                           margin: EdgeInsets.only(left:7, top: 23),
                         ),
                         Container(
-                          child: Text(
+                          child: Tooltip(message: 
                             (percent<0 ? '-$percent%' : '+$percent%'), style: TextStyle(fontSize: 22, color: Color(0xffccc8d8))
                           ),
                           width: 80,
