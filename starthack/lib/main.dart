@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:starthack/Stock/Chart.dart';
 import 'package:starthack/routes.dart';
-
+import 'package:starthack/shared/theme.dart';
 import 'package:starthack/Stock/Stockpage.dart';
 
 void main() => runApp(MyApp());
@@ -11,6 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: appRoutes,
+      theme: appTheme,
     );
   }
 }
@@ -34,11 +35,7 @@ class SmallChartWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(32),
               ),
               color: const Color(0xff020227),
-              child: Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: 
-                  LineChartWidget()
-              ),
+              child: Padding(padding: const EdgeInsets.only(top: 16), child: LineChartWidget()),
             ),
           ],
         ),
