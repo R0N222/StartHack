@@ -2,19 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:starthack/Stock/Chart.dart';
 import 'package:starthack/routes.dart';
 
-import 'package:starthack/Stock/Stockpage.dart';void main() => runApp(MyApp());
+import 'package:starthack/Stock/Stockpage.dart';
+
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Stock Chart',
-      theme: ThemeData(primaryColor: Colors.blueGrey[900]),
-      home: Scaffold(
-        appBar: AppBar(title: Text('hello'), centerTitle: true),
-        body: SmallChartWidget(),
-      ),
+      routes: appRoutes,
     );
   }
 }

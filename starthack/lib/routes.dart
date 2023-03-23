@@ -4,4 +4,5 @@ import 'package:starthack/Stock/Chart.dart';
 
 var appRoutes = {
   '/': (context) => const HomeScreenWidget(),
+  '/stock': (context) => const StockScreenWidget(),
 };
