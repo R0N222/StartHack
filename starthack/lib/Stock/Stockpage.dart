@@ -90,13 +90,8 @@ class StockScreenWidget extends StatelessWidget {
                           margin: EdgeInsets.only(left: 10, top: 20),
                         ),
                         Container(
-                          child: Container(
-                            child: Image.asset(inwlist ? 'assets/images/InWhitelistButton.png': 'assets/images/AddToWatchlistButton.png'),
-                            width: 10,
-                            height: 40,
-                          ),
-                          width: 35,
-                          margin: EdgeInsets.only(left:7, top: 23),
+                            child: IconButton(icon: Image.asset(inwlist ? 'assets/images/InWhitelistButton.png': 'assets/images/AddToWatchlistButton.png'), onPressed: () {}, hoverColor: Color.fromARGB(0, 75, 49, 124), iconSize: 36, ),
+                            margin: EdgeInsets.only(top: 20)
                         ),
                         Container(
                           child: Tooltip(
@@ -146,7 +141,7 @@ class StockScreenWidget extends StatelessWidget {
                     
                     Container(
                           child: Text('191,15€', style: TextStyle(fontSize: 37, color: Color(0xfff7f7f7))),
-                          margin: EdgeInsets.only(left: 40, top: 65),
+                          margin: EdgeInsets.only(left: 40, top: 68),
                         ),
                     Container(
                       child: Row(
@@ -210,6 +205,50 @@ class SectorWidget extends StatelessWidget {
           children: [
             Container(
               child: Text(sector, style: TextStyle(color: Color(0xff6e28f9), fontSize: 25)),
+              margin: EdgeInsets.only(left: 40, top: 40),
+              ),
+              Container(
+              child: Text('Business sector', style: TextStyle(color: Color(0xff65616d), fontSize: 17)),
+              margin: EdgeInsets.only(left: 40, top: 73),
+              ),
+              Container(
+              child: Image.asset('assets/images/EPS-Picture.png'),
+              margin: EdgeInsets.only(left: 220, top: 15),
+              height: 110,
+              width: 110,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                color: Color(0xffF0F0F4),
+              )
+              )
+          ],
+        ),
+        height: 140,
+        width: 350,
+        margin: EdgeInsets.only(top: 30),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          color: Color(0xfff7f7f7),
+        )
+      ),
+      
+    );
+  }
+
+}
+class EPSWidget extends StatelessWidget {
+  final double eps;
+
+  const EPSWidget({super.key, required this.eps});
+
+  @override
+  Widget build(BuildContext context){
+    return Center(
+      child: Container(
+        child: Stack(
+          children: [
+            Container(
+              child: Text('eps', style: TextStyle(color: Color(0xff6e28f9), fontSize: 25)),
               margin: EdgeInsets.only(left: 40, top: 40),
               ),
               Container(
