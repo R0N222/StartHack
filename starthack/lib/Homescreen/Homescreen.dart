@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:starthack/main.dart';
 import 'package:starthack/shared/StockPictures.dart';
@@ -126,7 +127,11 @@ class StockListElement extends StatelessWidget {
                   ),
                 ],
               ),
-              ChartViewHomepageWidget(values: [3, 3234, 342, 32], percent: 10),
+              FutureBuilder(
+                  future: getFlSpot(name),
+                  builder: (context, snapshot) {
+                    return ChartViewHomepageWidget(values: [3, 3234, 342, 32], percent: 10);
+                  }),
             ],
           ),
           height: 80, // 1080 * 2400
@@ -147,7 +152,7 @@ class StockListElement extends StatelessWidget {
 }
 
 class ChartViewHomepageWidget extends StatelessWidget {
-  final List<double> values;
+  final List<FlSpot> values;
   final double percent;
 
   const ChartViewHomepageWidget({super.key, required this.values, required this.percent});

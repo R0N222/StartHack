@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // ignore: depend_on_referenced_packages
 import 'package:json_annotation/json_annotation.dart';
+import './SixAPI.dart';
 
 List<String> myWatchList = []; //["Alphabet", "Microsoft", "Tesla"];
 
@@ -33,8 +35,12 @@ Future saveWatchList() async {
   prefs.setStringList('watchlist', myWatchList);
 }
 
-List<FlSpot> getFlSpot() {
-  return [];
+Future<List<FlSpot>> getFlSpot(String name) async {
+  var cl = HttpClient();
+
+  var map = await fetchStockByName(cl, name);
+  Listing lst = Listing.fromMap(map);
+  return lst.marketData.getFlSpot();
 }
 
 class Listing {
@@ -100,6 +106,22 @@ class MarketData {
     }
     return MarketData(eodTimeseries: eodTimeseriesList);
   }
+  List<FlSpot> getFlSpot() {
+    List<FlSpot> flSpotList = [];
+
+    for (var item in eodTimeseries) {
+      // Check if all required values are present in the current item
+      if (item.open != null && item.close != null) {
+        FlSpot flSpot = FlSpot(
+          DateTime.parse(item.sessionDate).millisecondsSinceEpoch.toDouble(),
+          (item.open! + item.close!) / 2,
+        );
+        flSpotList.add(flSpot);
+      }
+    }
+
+    return flSpotList;
+  }
 }
 
 class EodTimeSeries {
@@ -131,10 +153,8 @@ class EodTimeSeries {
   }
 }
 
-List<Listing> jsonToListings() {
+List<Listing> jsonToListings(String jsonData) {
   List<Listing> listings = [];
-
-  String jsonData = '{...}'; // JSON data goes here
 
   List<dynamic> jsonList = json.decode(jsonData)['data']['listings'];
 
