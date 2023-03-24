@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         ),
         body: Center(
           child: FutureBuilder<Map<String, dynamic>>(
-            future: fetchData(client),
+            future: fetchStockByName(client, 'tesla'),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Text('Response: ${snapshot.data}');
