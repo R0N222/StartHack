@@ -18,6 +18,10 @@ class SliverAppBarBldr extends StatelessWidget {
         stretchModes: [StretchMode.zoomBackground],
         background: Container(
           color: Color.fromARGB(255, 110, 40, 249),
+          child: Image(
+            image: AssetImage('assets/images/HeroPicture.png'),
+            fit: BoxFit.cover,
+          ),
         ),
         /*Image(
           

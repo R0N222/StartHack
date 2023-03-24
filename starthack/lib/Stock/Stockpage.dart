@@ -8,8 +8,9 @@ import 'package:starthack/shared/AI.dart';
 import 'package:starthack/shared/Data.dart';
 import 'package:http/http.dart' as http;
 
-double open=0.0;
-double close=0.0;
+double open = 0.0;
+double close = 0.0;
+
 class BigLineChart extends StatelessWidget {
   final List<Color> gradientColors = [
     const Color(0xff23b6e6),
@@ -36,8 +37,8 @@ class BigLineChart extends StatelessWidget {
             if (maxx < values[i].x) maxx = values[i].x;
             if (maxy < values[i].y) maxy = values[i].y;
           }
-          open=values[values.length-1].y;
-          close=values[0].y;
+          open = values[values.length - 1].y;
+          close = values[0].y;
           return LineChart(
             LineChartData(
                 minX: minx,
@@ -81,7 +82,7 @@ class StockScreenWidget extends StatefulWidget {
   State<StockScreenWidget> createState() => _StockScreenWidgetState();
 }
 
-double eps_tmp=0.0;
+double eps_tmp = 0.0;
 
 class _StockScreenWidgetState extends State<StockScreenWidget> {
   bool inwlist = false;
@@ -200,14 +201,13 @@ class _StockScreenWidgetState extends State<StockScreenWidget> {
                 return SectorWidget(sector: 'Automobile');
               case 3:
                 void func() async {
-                  var response = await ApiService.getData(widget.name);
-                  eps_tmp = double.parse(response); 
-                  print("EPS: $eps_tmp");
+                  //var response = await ApiService.getData(widget.name);
+                  //eps_tmp = double.parse(response);
+                  //print("EPS: $eps_tmp");
                 }
                 func();
                 return EPSWidget(eps: eps_tmp);
 
-                
               case 4:
                 return PEWidget(pe: 50.58);
               default:
@@ -383,11 +383,20 @@ class PEWidget extends StatelessWidget {
   }
 }
 
-class SummaryWidget extends StatelessWidget {
+class SummaryWidget extends StatefulWidget {
   final String name;
 
   const SummaryWidget({super.key, required this.name});
 
+  @override
+  State<SummaryWidget> createState() => _SummaryWidgetState();
+}
+
+class _SummaryWidgetState extends State<SummaryWidget> {
+  List<String> conversationData = [];
+  bool isExtended = false;
+
+  String currentPrompt = "";
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -409,12 +418,119 @@ class SummaryWidget extends StatelessWidget {
                 margin: EdgeInsets.only(top: 20, right: 285),
                 height: 60),
             FutureBuilder(
-              future: summarize(name),
+              future: summarize(widget.name),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return Container(
-                    child: Text(snapshot.data.toString(), style: TextStyle(fontSize: 18)),
-                    margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                  return Column(
+                    children: [
+                      Container(
+                        child: Text(snapshot.data.toString(), style: TextStyle(fontSize: 18)),
+                        margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                      ),
+                      Builder(builder: (context) {
+                        List<Widget> widgets = [];
+                        for (int i = 0; i < conversationData.length; i++) {
+                          if (i % 2 == 0) {
+                            // User
+                            var c = Container(
+                              child: Text(
+                                conversationData[i],
+                              ),
+                              alignment: Alignment.topRight,
+                              color: const Color.fromARGB(255, 238, 238, 249),
+                              height: 100,
+                              padding: EdgeInsets.fromLTRB(30, 35, 35, 30),
+                              margin: EdgeInsets.fromLTRB(0, 40, 0, 40),
+                            );
+                            widgets.add(c);
+                          } else {
+                            // AI
+                            var c = Container(
+                              child: Text(conversationData[i]),
+                              alignment: Alignment.topLeft,
+                              padding: EdgeInsets.fromLTRB(30, 10, 35, 10),
+                              margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                            );
+                            widgets.add((c));
+                          }
+                        }
+                        return Column(children: widgets);
+                      }),
+                      Builder(builder: (context) {
+                        if (!isExtended) {
+                          return Column(
+                            children: [
+                              Container(
+                                child: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      isExtended = true;
+                                    });
+                                  },
+                                  icon: Image.asset('assets/images/QuestionsButton.png'),
+                                  iconSize: 200,
+                                ),
+                                alignment: Alignment.centerLeft,
+                                padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
+                              ),
+                            ],
+                          );
+                        } else {
+                          return Container(
+                            margin: EdgeInsets.fromLTRB(40, 30, 40, 0),
+                            height: 60,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50.0),
+                              color: Color.fromARGB(255, 231, 231, 237),
+                            ),
+                            child: Stack(
+                              children: [
+                                Container(
+                                    child: IconButton(
+                                      onPressed: () async {
+                                        print(("OnPress"));
+                                        setState(() {
+                                          conversationData.add(currentPrompt);
+                                        });
+                                        String temp = currentPrompt;
+                                        currentPrompt = "";
+
+                                        String anwser = await questionToCurrentStock(temp);
+                                        setState(() {
+                                          conversationData.add(anwser);
+                                          print("Added Element to Conversation Data: ${conversationData.length}");
+                                        });
+                                      },
+                                      icon: Image.asset("assets/images/SubmitButton.png"),
+                                      // padding: EdgeInsets.only(left: 250.0),
+                                      //                                alignment: Alignment.centerRight,
+                                    ),
+                                    alignment: Alignment.centerRight),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                                  child: TextFormField(
+                                    textAlignVertical: TextAlignVertical.center,
+                                    onChanged: (value) {
+                                      currentPrompt = value;
+                                    },
+                                    decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.only(bottom: 10),
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(color: Color.fromARGB(255, 231, 231, 237)),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(color: Color.fromARGB(255, 231, 231, 237)),
+                                      ),
+                                      hintText: 'Ask anything about ${currentStock}...',
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                      })
+                    ],
                   );
                 } else {
                   return CircularProgressIndicator();
@@ -425,7 +541,7 @@ class SummaryWidget extends StatelessWidget {
         ),
       ),
       color: Color(0xfff7f7f7),
-      height: 320,
+      height: 517 + conversationData.length * 200,
     );
   }
 }

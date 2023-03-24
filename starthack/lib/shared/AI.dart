@@ -9,6 +9,7 @@ Future<String> summarize(String name) async {
 }
 
 Future<String> questionToCurrentStock(String question) async {
+  
   return generateResponse("Anwser the following question concerning $currentStock. If the question is not relevant to the topic, say: Pls only ask questions related to the Stock. " + question);
 }
 
