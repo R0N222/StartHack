@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         ),
         body: Center(
           child: FutureBuilder<Map<String, dynamic>>(
-            future: fetchStockByName(client, 'tesla'),
+            future: fetchStockByName(client, "Tesla"),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Text('Response: ${snapshot.data}');
@@ -89,3 +89,5 @@ Future<Map<String, dynamic>> fetchData2(HttpClient client, String shareShortName
 }
 
 void AnalyzeData() {}
+
+
