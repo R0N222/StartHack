@@ -118,12 +118,9 @@ class _StockScreenWidgetState extends State<StockScreenWidget> {
                               margin: EdgeInsets.only(left: 50, right: 50),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(25),
-                                gradient:
-                                    const LinearGradient(colors: <Color>[Color.fromARGB(255, 255, 156, 7), Color.fromARGB(255, 244, 105, 54)]),
+                                gradient: const LinearGradient(colors: <Color>[Color.fromARGB(255, 255, 156, 7), Color.fromARGB(255, 244, 105, 54)]),
                               ),
-                              child: Text(
-                            (widget.percent<0 ? '-${widget.percent}%' : '+${widget.percent}%'),style: TextStyle(fontSize: 22, color: Color(0xffccc8d8)))
-                          ),
+                              child: Text((widget.percent < 0 ? '-${widget.percent}%' : '+${widget.percent}%'), style: TextStyle(fontSize: 22, color: Color(0xffccc8d8)))),
                           width: 80,
                           margin: EdgeInsets.only(left: 60, top: 23),
                         ),
@@ -139,21 +136,19 @@ class _StockScreenWidgetState extends State<StockScreenWidget> {
                       ],
                     ),
                     Container(
-                       child: Tooltip(
-                              message: 'This is the growth percentage for the certain period',
-                              showDuration: const Duration(seconds: 1000),
-                              triggerMode: TooltipTriggerMode.tap,
-                              padding: const EdgeInsets.all(10.0),
-                              margin: EdgeInsets.only(left: 50, right: 50),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(25),
-                                gradient:
-                                    const LinearGradient(colors: <Color>[Color.fromARGB(255, 255, 156, 7), Color.fromARGB(255, 244, 105, 54)]),
-                              ),
-                              child: Stack(children: [BigLineChart(), Container( 
-                                color: Colors.redAccent.withOpacity(0)
-                              )],)
+                      child: Tooltip(
+                          message: '${widget.name} has attained a performance of +${widget.percent}% within the last year.',
+                          showDuration: const Duration(seconds: 1000),
+                          triggerMode: TooltipTriggerMode.tap,
+                          padding: const EdgeInsets.all(10.0),
+                          margin: EdgeInsets.only(left: 50, right: 50),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25),
+                            gradient: const LinearGradient(colors: <Color>[Color.fromARGB(255, 255, 156, 7), Color.fromARGB(255, 244, 105, 54)]),
                           ),
+                          child: Stack(
+                            children: [BigLineChart(), Container(color: Colors.redAccent.withOpacity(0))],
+                          )),
                       height: 170,
                       margin: EdgeInsets.only(top: 100),
                     ),
@@ -208,25 +203,35 @@ class SectorWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        child: Stack(
-          children: [
-            Container(
-              child: Text(sector, style: TextStyle(color: Color(0xff6e28f9), fontSize: 25)),
-              margin: EdgeInsets.only(left: 30, top: 40),
+          child: Stack(
+            children: [
+              Container(
+                child: Text(sector, style: TextStyle(color: Color(0xff6e28f9), fontSize: 25)),
+                margin: EdgeInsets.only(left: 30, top: 40),
               ),
               Container(
-              child: Text('Business sector', style: TextStyle(color: Color(0xff65616d), fontSize: 17)),
-              margin: EdgeInsets.only(left: 30, top: 73),
+                child: Text('Business sector', style: TextStyle(color: Color(0xff65616d), fontSize: 17)),
+                margin: EdgeInsets.only(left: 30, top: 73),
               ),
               Container(
-                  child: Image.asset('assets/images/EPS-Picture.png'),
+                  child: Tooltip(
+                      message: 'A business sector is a group of related businesses in the same industry.',
+                      showDuration: const Duration(seconds: 1000),
+                      triggerMode: TooltipTriggerMode.tap,
+                      padding: const EdgeInsets.all(10.0),
+                      margin: EdgeInsets.only(left: 50, right: 50),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25),
+                        gradient: const LinearGradient(colors: <Color>[Color.fromARGB(255, 255, 156, 7), Color.fromARGB(255, 244, 105, 54)]),
+                      ),
+                      child: Image.asset('assets/images/EPS-Picture.png')),
                   margin: EdgeInsets.only(left: 220, top: 15),
                   height: 110,
                   width: 110,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                     color: Color(0xffF0F0F4),
-                  ))
+                  )),
             ],
           ),
           height: 140,
@@ -249,46 +254,51 @@ class EPSWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        child: Stack(
-          children: [
-            Container(
-              child: Text('$eps€', style: TextStyle(color: Color(0xff6e28f9), fontSize: 28)),
-              margin: EdgeInsets.only(left: 30, top: 36),
+          child: Stack(
+            children: [
+              Container(
+                child: Text('$eps€', style: TextStyle(color: Color(0xff6e28f9), fontSize: 28)),
+                margin: EdgeInsets.only(left: 30, top: 36),
               ),
               Container(
-              child: Text('eps', style: TextStyle(color: Color(0xff6e28f9), fontSize: 20)),
-              margin: EdgeInsets.only(left: 142, top: 43),
+                child: Text('eps', style: TextStyle(color: Color(0xff6e28f9), fontSize: 20)),
+                margin: EdgeInsets.only(left: 142, top: 43),
               ),
               Container(
-              child: Text('Earnings per share', style: TextStyle(color: Color(0xff65616d), fontSize: 17)),
-              margin: EdgeInsets.only(left: 30, top: 73),
+                child: Text('Earnings per share', style: TextStyle(color: Color(0xff65616d), fontSize: 17)),
+                margin: EdgeInsets.only(left: 30, top: 73),
               ),
               Container(
-              child: Image.asset('assets/images/EPS-Picture.png'),
-              margin: EdgeInsets.only(left: 220, top: 15),
-              height: 110,
-              width: 110,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-                color: Color(0xffF0F0F4),
-              )
-              )
-          ],
-        ),
-        height: 140,
-        width: 350,
-        margin: EdgeInsets.only(top: 30),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          color: Color(0xfff7f7f7),
-        )
-      ),
-      
+                  child: Tooltip(
+                      message: 'A single Tesla share generates a net profit of 0.95€ per year.',
+                      showDuration: const Duration(seconds: 1000),
+                      triggerMode: TooltipTriggerMode.tap,
+                      padding: const EdgeInsets.all(10.0),
+                      margin: EdgeInsets.only(left: 50, right: 50),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25),
+                        gradient: const LinearGradient(colors: <Color>[Color.fromARGB(255, 255, 156, 7), Color.fromARGB(255, 244, 105, 54)]),
+                      ),
+                      child: Image.asset('assets/images/EPS-Picture.png')),
+                  margin: EdgeInsets.only(left: 220, top: 15),
+                  height: 110,
+                  width: 110,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    color: Color(0xffF0F0F4),
+                  )),
+            ],
+          ),
+          height: 140,
+          width: 350,
+          margin: EdgeInsets.only(top: 30),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            color: Color(0xfff7f7f7),
+          )),
     );
   }
 }
-
-
 
 class PEWidget extends StatelessWidget {
   final double pe;
@@ -296,44 +306,51 @@ class PEWidget extends StatelessWidget {
   const PEWidget({super.key, required this.pe});
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Center(
       child: Container(
-        child: Stack(
-          children: [
-            Container(
-              child: Text('$pe', style: TextStyle(color: Color(0xff6e28f9), fontSize: 28)),
-              margin: EdgeInsets.only(left: 30, top: 36),
+          child: Stack(
+            children: [
+              Container(
+                child: Text('$pe', style: TextStyle(color: Color(0xff6e28f9), fontSize: 28)),
+                margin: EdgeInsets.only(left: 30, top: 36),
               ),
               Container(
-              child: Text('P/E ratio', style: TextStyle(color: Color(0xff6e28f9), fontSize: 20)),
-              margin: EdgeInsets.only(left: 130, top: 43),
+                child: Text('P/E ratio', style: TextStyle(color: Color(0xff6e28f9), fontSize: 20)),
+                margin: EdgeInsets.only(left: 130, top: 43),
               ),
               Container(
-              child: Text('Price-to-Earnings Ratio', style: TextStyle(color: Color(0xff65616d), fontSize: 17)),
-              margin: EdgeInsets.only(left: 30, top: 73),
+                child: Text('Price-to-Earnings Ratio', style: TextStyle(color: Color(0xff65616d), fontSize: 17)),
+                margin: EdgeInsets.only(left: 30, top: 73),
               ),
               Container(
-              child: Image.asset('assets/images/EPS-Picture.png'),
-              margin: EdgeInsets.only(left: 220, top: 15),
-              height: 110,
-              width: 110,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-                color: Color(0xffF0F0F4),
-              )
-              )
-          ],
-        ),
-        height: 140,
-        width: 350,
-        margin: EdgeInsets.only(top: 30),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          color: Color(0xfff7f7f7),
-        )
-      ),
-      
+                  child: Tooltip(
+                      message: 'At constant earnings, it takes 50.58 years for a Tesla share to earn back its current purchase price.',
+                      showDuration: const Duration(seconds: 1000),
+                      triggerMode: TooltipTriggerMode.tap,
+                      padding: const EdgeInsets.all(10.0),
+                      margin: EdgeInsets.only(left: 50, right: 50),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25),
+                        gradient: const LinearGradient(colors: <Color>[Color.fromARGB(255, 255, 156, 7), Color.fromARGB(255, 244, 105, 54)]),
+                      ),
+                      child: Image.asset('assets/images/EPS-Picture.png')),
+                  margin: EdgeInsets.only(left: 220, top: 15),
+                  height: 110,
+                  width: 110,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    color: Color(0xffF0F0F4),
+                  )),
+            ],
+          ),
+          height: 140,
+          width: 350,
+          margin: EdgeInsets.only(top: 30),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            color: Color(0xfff7f7f7),
+          )),
     );
   }
 }
@@ -349,7 +366,20 @@ class SummaryWidget extends StatelessWidget {
       child: Center(
         child: Column(
           children: [
-            Container(child: Image.asset('assets/images/AI_Icon.png', width: 90, height: 90), margin: EdgeInsets.only(top: 20, right: 285), height: 50),
+            Container(
+                child: Tooltip(
+                    message: "Here is a brief summary of Tesla's business model written by AI.",
+                    showDuration: const Duration(seconds: 1000),
+                    triggerMode: TooltipTriggerMode.tap,
+                    padding: const EdgeInsets.all(10.0),
+                    margin: EdgeInsets.only(left: 50, right: 50),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      gradient: const LinearGradient(colors: <Color>[Color.fromARGB(255, 255, 156, 7), Color.fromARGB(255, 244, 105, 54)]),
+                    ),
+                    child: Image.asset('assets/images/AI_Icon.png', width: 90, height: 90)),
+                margin: EdgeInsets.only(top: 20, right: 285),
+                height: 50),
             FutureBuilder(
               future: summarize(name),
               builder: (context, snapshot) {
@@ -368,7 +398,6 @@ class SummaryWidget extends StatelessWidget {
       ),
       color: Color(0xfff7f7f7),
       height: 250,
-
     );
   }
 }
