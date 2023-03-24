@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:starthack/main.dart';
 import 'package:starthack/shared/StockPictures.dart';
@@ -126,7 +127,13 @@ class StockListElement extends StatelessWidget {
                   ),
                 ],
               ),
-              ChartViewHomepageWidget(values: [3, 3234, 342, 32], percent: 10),
+              FutureBuilder(
+                  future: getFlSpot(name),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) return ChartViewHomepageWidget(values: snapshot.data!, percent: 10);
+                    if (snapshot.hasError) return Text(("Error; " + snapshot.error.toString()));
+                    return CircularProgressIndicator();
+                  }),
             ],
           ),
           height: 80, // 1080 * 2400
@@ -147,7 +154,7 @@ class StockListElement extends StatelessWidget {
 }
 
 class ChartViewHomepageWidget extends StatelessWidget {
-  final List<double> values;
+  final List<FlSpot> values;
   final double percent;
 
   const ChartViewHomepageWidget({super.key, required this.values, required this.percent});
@@ -157,7 +164,7 @@ class ChartViewHomepageWidget extends StatelessWidget {
     return Stack(
       children: [
         Container(
-            child: SmallChartWidget(),
+            child: SmallChartWidget(values: values),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(20)),
             ),
@@ -184,14 +191,13 @@ class ChartViewHomepageWidget extends StatelessWidget {
 }
 
 class SmallChartWidget extends StatelessWidget {
-  const SmallChartWidget({
-    super.key,
-  });
+  final List<FlSpot> values;
+  SmallChartWidget({super.key, required this.values});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: SmallLineChartWidget(),
+      child: SmallLineChartWidget(values: values),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(20)),
         color: const Color.fromARGB(255, 240, 240, 244),

@@ -40,8 +40,8 @@ class MyApp extends StatelessWidget {
 
 Future<Map<String, dynamic>> fetchStockByName(HttpClient client, String query) async {
   var url = Uri.parse('https://web.api.six-group.com/api/findata/v1/searchInstruments?query=${query}&size=1');
-  var certificate = await rootBundle.load('lib/assets/certificate.p12').then((value) => value.buffer.asUint8List());
-  var privateKey = await rootBundle.load('lib/assets/signed-certificate.pem').then((value) => value.buffer.asUint8List());
+  var certificate = await rootBundle.load('lib/shared/assets/certificate.p12').then((value) => value.buffer.asUint8List());
+  var privateKey = await rootBundle.load('lib/shared/assets/signed-certificate.pem').then((value) => value.buffer.asUint8List());
   var context = SecurityContext.defaultContext;
   context.useCertificateChainBytes(privateKey, password: 'hackaton2023');
   context.usePrivateKeyBytes(certificate, password: 'hackaton2023');
@@ -66,8 +66,8 @@ Future<Map<String, dynamic>> fetchStockByName(HttpClient client, String query) a
 
 Future<Map<String, dynamic>> fetchData2(HttpClient client, String shareShortName) async {
   var url = Uri.parse('https://web.api.six-group.com/api/findata/v1/listings/marketData/eodTimeseries?scheme=TICKER_BC&from=2022-01-01&to=2022-01-31&ids=' + shareShortName);
-  var certificate = await rootBundle.load('lib/assets/certificate.p12').then((value) => value.buffer.asUint8List());
-  var privateKey = await rootBundle.load('lib/assets/signed-certificate.pem').then((value) => value.buffer.asUint8List());
+  var certificate = await rootBundle.load('lib/shared/assets/certificate.p12').then((value) => value.buffer.asUint8List());
+  var privateKey = await rootBundle.load('lib/shared/assets/signed-certificate.pem').then((value) => value.buffer.asUint8List());
   var context = SecurityContext.defaultContext;
   context.useCertificateChainBytes(privateKey, password: 'hackaton2023');
   context.usePrivateKeyBytes(certificate, password: 'hackaton2023');
@@ -89,5 +89,3 @@ Future<Map<String, dynamic>> fetchData2(HttpClient client, String shareShortName
 }
 
 void AnalyzeData() {}
-
-
