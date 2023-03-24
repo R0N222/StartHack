@@ -1,11 +1,10 @@
-
-
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:starthack/Stock/Chart.dart';
 import 'package:starthack/shared/AI.dart';
+import 'package:starthack/shared/Data.dart';
 
 class BigLineChart extends StatelessWidget {
   final List<Color> gradientColors = [
@@ -53,14 +52,22 @@ class BigLineChart extends StatelessWidget {
       );
 }
 
-class StockScreenWidget extends StatelessWidget {
+class StockScreenWidget extends StatefulWidget {
   final String name;
   final double percent;
-  final bool inwlist;
-  const StockScreenWidget({super.key, required this.name, required this.percent, required this.inwlist});
+  const StockScreenWidget({super.key, required this.name, required this.percent});
+
+  @override
+  State<StockScreenWidget> createState() => _StockScreenWidgetState();
+}
+
+class _StockScreenWidgetState extends State<StockScreenWidget> {
+  bool inwlist = false;
 
   @override
   Widget build(BuildContext context) {
+    inwlist = isOnWatchlist(widget.name);
+
     return Scaffold(
       body: Stack(children: [
         new Container(
@@ -77,26 +84,39 @@ class StockScreenWidget extends StatelessWidget {
                       children: [
                         Container(
                           child: CircleAvatar(
-                            backgroundImage: NetworkImage('https://logo.clearbit.com/' + name + '.com'),
+                            backgroundImage: NetworkImage('https://logo.clearbit.com/' + widget.name + '.com'),
                           ),
                           margin: EdgeInsets.only(left: 30, top: 20),
                         ),
                         Container(
-                          child: Text(name, style: TextStyle(fontSize: 23, color: Color(0xffccc8d8))),
+                          child: Text(widget.name, style: TextStyle(fontSize: 23, color: Color(0xffccc8d8))),
                           margin: EdgeInsets.only(left: 10, top: 20),
                         ),
                         Container(
-                            child: IconButton(icon: Image.asset(inwlist ? 'assets/images/InWhitelistButton.png': 'assets/images/AddToWatchlistButton.png'), onPressed: () {}, hoverColor: Color.fromARGB(0, 75, 49, 124), iconSize: 36, ),
-                            margin: EdgeInsets.only(top: 20)
-                        ),
+                            child: IconButton(
+                              icon: Image.asset(inwlist ? 'assets/images/InWhitelistButton.png' : 'assets/images/AddToWatchlistButton.png'),
+                              onPressed: () {
+                                if (!inwlist)
+                                  addToWatchList(widget.name);
+                                else
+                                  removeToWatchList(widget.name);
+
+                                setState(() {
+                                  inwlist = !inwlist;
+                                });
+                              },
+                              hoverColor: Color.fromARGB(0, 75, 49, 124),
+                              iconSize: 36,
+                            ),
+                            margin: EdgeInsets.only(top: 20)),
                         Container(
-                          child: Text((percent < 0 ? '-$percent%' : '+$percent%'), style: TextStyle(fontSize: 22, color: Color(0xffccc8d8))),
+                          child: Text((widget.percent < 0 ? '-${widget.percent}%' : '+${widget.percent}%'), style: TextStyle(fontSize: 22, color: Color(0xffccc8d8))),
                           width: 80,
                           margin: EdgeInsets.only(left: 60, top: 23),
                         ),
                         Container(
                           child: Container(
-                            child: Image.asset(percent < 0 ? 'assets/images/ArrowDownWhite.png' : 'assets/images/ArrowUpWhite.png'),
+                            child: Image.asset(widget.percent < 0 ? 'assets/images/ArrowDownWhite.png' : 'assets/images/ArrowUpWhite.png'),
                             width: 1,
                             height: 20,
                           ),
@@ -111,9 +131,9 @@ class StockScreenWidget extends StatelessWidget {
                       margin: EdgeInsets.only(top: 80),
                     ),
                     Container(
-                          child: Text('191,15€', style: TextStyle(fontSize: 37, color: Color(0xfff7f7f7))),
-                          margin: EdgeInsets.only(left: 40, top: 65),
-                        ),
+                      child: Text('191,15€', style: TextStyle(fontSize: 37, color: Color(0xfff7f7f7))),
+                      margin: EdgeInsets.only(left: 40, top: 65),
+                    ),
                     Container(
                       child: Row(
                         children: [
@@ -133,7 +153,7 @@ class StockScreenWidget extends StatelessWidget {
                 );
               case 1:
                 // Summary here
-                return SummaryWidget(name: name);
+                return SummaryWidget(name: widget.name);
               case 2:
                 return SectorWidget(sector: 'Automobile');
               default:
@@ -154,88 +174,82 @@ class SectorWidget extends StatelessWidget {
   const SectorWidget({super.key, required this.sector});
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Center(
       child: Container(
-        child: Stack(
-          children: [
-            Container(
-              child: Text(sector, style: TextStyle(color: Color(0xff6e28f9), fontSize: 25)),
-              margin: EdgeInsets.only(left: 40, top: 40),
+          child: Stack(
+            children: [
+              Container(
+                child: Text(sector, style: TextStyle(color: Color(0xff6e28f9), fontSize: 25)),
+                margin: EdgeInsets.only(left: 40, top: 40),
               ),
               Container(
-              child: Text('Business sector', style: TextStyle(color: Color(0xff65616d), fontSize: 17)),
-              margin: EdgeInsets.only(left: 40, top: 73),
+                child: Text('Business sector', style: TextStyle(color: Color(0xff65616d), fontSize: 17)),
+                margin: EdgeInsets.only(left: 40, top: 73),
               ),
               Container(
-              child: Image.asset('assets/images/EPS-Picture.png'),
-              margin: EdgeInsets.only(left: 220, top: 15),
-              height: 110,
-              width: 110,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-                color: Color(0xffF0F0F4),
-              )
-              )
-          ],
-        ),
-        height: 140,
-        width: 350,
-        margin: EdgeInsets.only(top: 30),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          color: Color(0xfff7f7f7),
-        )
-      ),
-      
+                  child: Image.asset('assets/images/EPS-Picture.png'),
+                  margin: EdgeInsets.only(left: 220, top: 15),
+                  height: 110,
+                  width: 110,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    color: Color(0xffF0F0F4),
+                  ))
+            ],
+          ),
+          height: 140,
+          width: 350,
+          margin: EdgeInsets.only(top: 30),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            color: Color(0xfff7f7f7),
+          )),
     );
   }
-
 }
+
 class EPSWidget extends StatelessWidget {
   final double eps;
 
   const EPSWidget({super.key, required this.eps});
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Center(
       child: Container(
-        child: Stack(
-          children: [
-            Container(
-              child: Text('eps', style: TextStyle(color: Color(0xff6e28f9), fontSize: 25)),
-              margin: EdgeInsets.only(left: 40, top: 40),
+          child: Stack(
+            children: [
+              Container(
+                child: Text('eps', style: TextStyle(color: Color(0xff6e28f9), fontSize: 25)),
+                margin: EdgeInsets.only(left: 40, top: 40),
               ),
               Container(
-              child: Text('Business sector', style: TextStyle(color: Color(0xff65616d), fontSize: 17)),
-              margin: EdgeInsets.only(left: 40, top: 73),
+                child: Text('Business sector', style: TextStyle(color: Color(0xff65616d), fontSize: 17)),
+                margin: EdgeInsets.only(left: 40, top: 73),
               ),
               Container(
-              child: Image.asset('assets/images/EPS-Picture.png'),
-              margin: EdgeInsets.only(left: 220, top: 15),
-              height: 110,
-              width: 110,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-                color: Color(0xffF0F0F4),
-              )
-              )
-          ],
-        ),
-        height: 140,
-        width: 350,
-        margin: EdgeInsets.only(top: 30),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          color: Color(0xfff7f7f7),
-        )
-      ),
-      
+                  child: Image.asset('assets/images/EPS-Picture.png'),
+                  margin: EdgeInsets.only(left: 220, top: 15),
+                  height: 110,
+                  width: 110,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    color: Color(0xffF0F0F4),
+                  ))
+            ],
+          ),
+          height: 140,
+          width: 350,
+          margin: EdgeInsets.only(top: 30),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            color: Color(0xfff7f7f7),
+          )),
     );
   }
-
 }
+
 class SummaryWidget extends StatelessWidget {
   final String name;
 

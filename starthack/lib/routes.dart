@@ -7,5 +7,5 @@ import 'package:starthack/shared/Data.dart';
 
 var appRoutes = {
   '/': (context) => const HomePage(title: "Home"),
-  '/stock': (context) => StockScreenWidget(name: currentStock, percent: 15.2, inwlist: false),
+  '/stock': (context) => StockScreenWidget(name: currentStock, percent: 15.2),
 };

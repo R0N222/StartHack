@@ -13,33 +13,35 @@ class SmallLineChartWidget extends StatelessWidget {
   ];
 
   @override
-  Widget build(BuildContext context) => LineChart(
-        LineChartData(
-            minX: 0,
-            maxX: 11,
-            minY: 0,
-            maxY: 6,
-            borderData: FlBorderData(border: Border(bottom: BorderSide.none)),
-            titlesData: FlTitlesData(
-              show: false,
-            ),
-            lineBarsData: [
-              LineChartBarData(
-                  spots: [
-                    FlSpot(0, 3),
-                    FlSpot(2.6, 2),
-                    FlSpot(4.9, 5),
-                    FlSpot(6.8, 2.5),
-                    FlSpot(8, 4),
-                    FlSpot(9.5, 3),
-                    FlSpot(11, 4),
-                  ],
-                  isCurved: true,
-                  gradient: LinearGradient(colors: gradientColors),
-                  barWidth: 3,
-                  dotData: FlDotData(show: false),
-                  belowBarData: BarAreaData(show: true, gradient: LinearGradient(colors: gradientColors2.map((color) => color.withOpacity(0.3)).toList(), begin: Alignment.topCenter, end: Alignment.bottomCenter))),
-            ],
-            gridData: FlGridData(drawHorizontalLine: false, drawVerticalLine: false)),
-      );
+  Widget build(BuildContext context) {
+    return LineChart(
+      LineChartData(
+          minX: 0,
+          maxX: 11,
+          minY: 0,
+          maxY: 6,
+          borderData: FlBorderData(border: Border(bottom: BorderSide.none)),
+          titlesData: FlTitlesData(
+            show: false,
+          ),
+          lineBarsData: [
+            LineChartBarData(
+                spots: [
+                  FlSpot(0, 3),
+                  FlSpot(2.6, 2),
+                  FlSpot(4.9, 5),
+                  FlSpot(6.8, 2.5),
+                  FlSpot(8, 4),
+                  FlSpot(9.5, 3),
+                  FlSpot(11, 4),
+                ],
+                isCurved: true,
+                gradient: LinearGradient(colors: gradientColors),
+                barWidth: 3,
+                dotData: FlDotData(show: false),
+                belowBarData: BarAreaData(show: true, gradient: LinearGradient(colors: gradientColors2.map((color) => color.withOpacity(0.3)).toList(), begin: Alignment.topCenter, end: Alignment.bottomCenter))),
+          ],
+          gridData: FlGridData(drawHorizontalLine: false, drawVerticalLine: false)),
+    );
+  }
 }
