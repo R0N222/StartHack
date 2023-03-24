@@ -2,9 +2,12 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:starthack/Stock/APICall.dart';
 import 'package:starthack/Stock/Chart.dart';
 import 'package:starthack/shared/AI.dart';
 import 'package:starthack/shared/Data.dart';
+import 'package:http/http.dart' as http;
+
 
 class BigLineChart extends StatelessWidget {
   final List<Color> gradientColors = [
@@ -60,6 +63,8 @@ class StockScreenWidget extends StatefulWidget {
   @override
   State<StockScreenWidget> createState() => _StockScreenWidgetState();
 }
+
+double eps_tmp=0.0;
 
 class _StockScreenWidgetState extends State<StockScreenWidget> {
   bool inwlist = false;
@@ -179,7 +184,15 @@ class _StockScreenWidgetState extends State<StockScreenWidget> {
               case 2:
                 return SectorWidget(sector: 'Automobile');
               case 3:
-                return EPSWidget(eps: 0.95);
+                void func() async {
+                  var response = await ApiService.getData(widget.name);
+                  eps_tmp = double.parse(response); 
+                  print("EPS: $eps_tmp");
+                }
+                func();
+                return EPSWidget(eps: eps_tmp);
+
+                
               case 4:
                 return PEWidget(pe: 50.58);
               default:

@@ -7,9 +7,14 @@ import 'package:starthack/Homescreen/Homescreen.dart';
 import '../../Declarations/constants.dart';
 
 class SliverListBldr extends StatelessWidget {
-  const SliverListBldr({
+  SliverListBldr({
     Key? key,
   }) : super(key: key);
+
+  List<StockListElement> top20 = [
+    StockListElement(name: 'Tesla'),
+    StockListElement(name: 'Tesla')
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +35,7 @@ class SliverListBldr extends StatelessWidget {
               ],
             );
           } else {
-            return StockListElement(name: "Tesla");
+            return StockListElement(name: "Amazon");
           }
         },
         childCount: 20,
