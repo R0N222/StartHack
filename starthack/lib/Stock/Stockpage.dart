@@ -24,7 +24,6 @@ class BigLineChart extends StatelessWidget {
           if (snapshot.hasError) return Text("Error");
           if (!snapshot.hasData) return CircularProgressIndicator();
           List<FlSpot> values = snapshot.data!;
-
           double minx = 10000000;
           double maxx = 0;
           double miny = 10000000;
@@ -36,8 +35,7 @@ class BigLineChart extends StatelessWidget {
             if (maxx < values[i].x) maxx = values[i].x;
             if (maxy < values[i].y) maxy = values[i].y;
           }
-          open=values[values.length-1].y;
-          close=values[0].y;
+          
           return LineChart(
             LineChartData(
                 minX: minx,
@@ -133,7 +131,7 @@ class _StockScreenWidgetState extends State<StockScreenWidget> {
                             margin: EdgeInsets.only(top: 20)),
                         Container(
                           child: Tooltip(
-                              message: '${widget.name} has attained a performance of +${widget.percent}% within the last year.',
+                              message: '${widget.name} has attained a performance of +${glpercent}% within the last year.',
                               showDuration: const Duration(seconds: 1000),
                               triggerMode: TooltipTriggerMode.tap,
                               padding: const EdgeInsets.all(10.0),
@@ -142,13 +140,13 @@ class _StockScreenWidgetState extends State<StockScreenWidget> {
                                 borderRadius: BorderRadius.circular(25),
                                 gradient: const LinearGradient(colors: <Color>[Color.fromARGB(255, 255, 156, 7), Color.fromARGB(255, 244, 105, 54)]),
                               ),
-                              child: Text((widget.percent < 0 ? '-${widget.percent}%' : '+${widget.percent}%'), style: TextStyle(fontSize: 22, color: Color(0xffccc8d8)))),
-                          width: 80,
+                              child: Text((glpercent < 0 ? '${glpercent}%' : '+${glpercent}%'), style: TextStyle(fontSize: 22, color: Color(0xffccc8d8)))),
+                          width: 100,
                           margin: EdgeInsets.only(left: 60, top: 23),
                         ),
                         Container(
                           child: Container(
-                            child: Image.asset(widget.percent < 0 ? 'assets/images/ArrowDownWhite.png' : 'assets/images/ArrowUpWhite.png'),
+                            child: Image.asset(glpercent < 0 ? 'assets/images/ArrowDownWhite.png' : 'assets/images/ArrowUpWhite.png'),
                             width: 1,
                             height: 20,
                           ),
@@ -159,7 +157,7 @@ class _StockScreenWidgetState extends State<StockScreenWidget> {
                     ),
                     Container(
                       child: Tooltip(
-                          message: '${widget.name} has attained a performance of +${widget.percent}% within the last year.',
+                          message: '${widget.name} has attained a performance of +${glpercent}% within the last year.',
                           showDuration: const Duration(seconds: 1000),
                           triggerMode: TooltipTriggerMode.tap,
                           padding: const EdgeInsets.all(10.0),
@@ -173,7 +171,7 @@ class _StockScreenWidgetState extends State<StockScreenWidget> {
                       margin: EdgeInsets.only(top: 100),
                     ),
                     Container(
-                      child: Text('${open}€', style: TextStyle(fontSize: 37, color: Color(0xfff7f7f7))),
+                      child: Text('${glprice}€', style: TextStyle(fontSize: 37, color: Color(0xfff7f7f7))),
                       margin: EdgeInsets.only(left: 40, top: 65),
                     ),
                     Container(
@@ -197,15 +195,10 @@ class _StockScreenWidgetState extends State<StockScreenWidget> {
                 // Summary here
                 return SummaryWidget(name: widget.name);
               case 2:
-                return SectorWidget(sector: 'Automobile');
+                return SectorWidget(sectori: '');
               case 3:
-                void func() async {
-                  var response = await ApiService.getData(widget.name);
-                  eps_tmp = double.parse(response); 
-                  print("EPS: $eps_tmp");
-                }
-                func();
-                return EPSWidget(eps: eps_tmp);
+                
+                return EPSWidget(epsi: 0.0);
 
                 
               case 4:
@@ -223,9 +216,9 @@ class _StockScreenWidgetState extends State<StockScreenWidget> {
 }
 
 class SectorWidget extends StatelessWidget {
-  final String sector;
+  final String sectori;
 
-  const SectorWidget({super.key, required this.sector});
+  const SectorWidget({super.key, required this.sectori});
 
   @override
   Widget build(BuildContext context) {
@@ -274,9 +267,9 @@ class SectorWidget extends StatelessWidget {
 }
 
 class EPSWidget extends StatelessWidget {
-  final double eps;
+  final double epsi;
 
-  const EPSWidget({super.key, required this.eps});
+  const EPSWidget({super.key, required this.epsi});
 
   @override
   Widget build(BuildContext context) {

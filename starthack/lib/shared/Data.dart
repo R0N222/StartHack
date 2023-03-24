@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
@@ -10,6 +11,12 @@ import './SixAPI.dart';
 List<String> myWatchList = []; //["Alphabet", "Microsoft", "Tesla"];
 
 String currentStock = "";
+double glpercent=0.0;
+double glprice=0.0;
+Map<String, double> percentages=HashMap();
+Map<String, double> prices=HashMap();
+String sector = "";
+double eps=0.0;
 
 Future loadWatchList() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();

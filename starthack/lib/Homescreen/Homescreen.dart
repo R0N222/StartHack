@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:starthack/main.dart';
 import 'package:starthack/shared/StockPictures.dart';
 import 'package:starthack/shared/Data.dart';
 import 'package:starthack/Stock/Chart.dart';
+import 'package:starthack/Stock/APICall.dart';
 
 /*
 class HomeScreenWidget extends StatelessWidget {
@@ -95,12 +97,15 @@ class StockListElement extends StatefulWidget {
 
 class _StockListElementState extends State<StockListElement> {
 
-  String price = "-";
+  double price = 0.0;
+  Random rn = Random();
+  
  
   @override
   Widget build(BuildContext context) {
+    price = (rn.nextDouble()*100000).roundToDouble()/100;
     var pricewidget=Text(
-      price,
+      '$price€',
       textAlign: TextAlign.left,
       style: TextStyle(color: const Color.fromARGB(255, 26, 25, 28)),
     );
@@ -129,7 +134,7 @@ class _StockListElementState extends State<StockListElement> {
                       ),
                       Container(
                         child: Text(
-                         price,
+                         '$price€',
                           textAlign: TextAlign.left,
                           style: TextStyle(color: const Color.fromARGB(255, 26, 25, 28)),
                         ),
@@ -144,6 +149,9 @@ class _StockListElementState extends State<StockListElement> {
                   future: getFlSpot(widget.name),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
+                      percentages.addAll({widget.name: (((snapshot.data![snapshot.data!.length-1].y/snapshot.data![0].y-1.0)*10000).roundToDouble()/100)});
+                      prices.addAll({widget.name: snapshot.data![snapshot.data!.length-1].y});
+                      
                       return ChartViewHomepageWidget(values: snapshot.data!, percent: 10);}
                     if (snapshot.hasError) return Text(("Error; " + snapshot.error.toString()));
                     return CircularProgressIndicator();
@@ -158,7 +166,10 @@ class _StockListElementState extends State<StockListElement> {
             ),
           ),
         ),
-        onTap: () {
+        onTap: () async {
+          await ApiService.getData(widget.name);
+          glpercent = percentages[widget.name]??0.0 ;
+          glprice=((prices[widget.name]??0.0)*100).round()/100 ;
           currentStock = widget.name;
           Navigator.pushNamed(context, '/stock');
         },

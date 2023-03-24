@@ -46,23 +46,28 @@ class SliverListBldr extends StatelessWidget {
             return Column(
               children: [
                 TextSeperatorWidget(text: "Discovery"),
-                top20.elementAt(rd.nextInt(15)),
-                top20.elementAt(rd.nextInt(15)),
-                top20.elementAt(rd.nextInt(15)),
-                top20.elementAt(rd.nextInt(15)),
-                top20.elementAt(rd.nextInt(15)),
-                top20.elementAt(rd.nextInt(15)),
-                top20.elementAt(rd.nextInt(15)),
-                top20.elementAt(rd.nextInt(15)),
-                top20.elementAt(rd.nextInt(15)),
-                top20.elementAt(rd.nextInt(15)),
+                
+                StockListElement(name: 'Apple'),
+                StockListElement(name: 'Amazon'),
+                StockListElement(name: 'Microsoft'),
+                
+                StockListElement(name: 'Netflix'),
+                StockListElement(name: 'Intel'),
+                StockListElement(name: 'Meta'),
+                StockListElement(name: 'Pepsico'),
+                StockListElement(name: 'Adobe'),
+                StockListElement(name: 'amd'),
+                StockListElement(name: 'comcast'),
+                StockListElement(name: 'qualcomm'),
+                StockListElement(name: 'honeywell'),
+                StockListElement(name: 'intuit'),
               ],
             );
           } else {
             return StockListElement(name: "amazon");
           }
         },
-        childCount: 20,
+        childCount: 3,
       ),
     );
   }
