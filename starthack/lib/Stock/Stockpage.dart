@@ -111,16 +111,18 @@ class _StockScreenWidgetState extends State<StockScreenWidget> {
                             margin: EdgeInsets.only(top: 20)),
                         Container(
                           child: Tooltip(
-                              message: 'This is the growth percentage for the certain period',
+                              message: '${widget.name} has attained a performance of +${widget.percent}% within the last year.',
                               showDuration: const Duration(seconds: 1000),
                               triggerMode: TooltipTriggerMode.tap,
+                              padding: const EdgeInsets.all(10.0),
+                              margin: EdgeInsets.only(left: 50, right: 50),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(25),
                                 gradient:
-                                    const LinearGradient(colors: <Color>[Colors.amber, Colors.red]),
+                                    const LinearGradient(colors: <Color>[Color.fromARGB(255, 255, 156, 7), Color.fromARGB(255, 244, 105, 54)]),
                               ),
                               child: Text(
-                            (percent<0 ? '-$percent%' : '+$percent%'),style: TextStyle(fontSize: 22, color: Color(0xffccc8d8)))
+                            (widget.percent<0 ? '-${widget.percent}%' : '+${widget.percent}%'),style: TextStyle(fontSize: 22, color: Color(0xffccc8d8)))
                           ),
                           width: 80,
                           margin: EdgeInsets.only(left: 60, top: 23),
@@ -141,10 +143,12 @@ class _StockScreenWidgetState extends State<StockScreenWidget> {
                               message: 'This is the growth percentage for the certain period',
                               showDuration: const Duration(seconds: 1000),
                               triggerMode: TooltipTriggerMode.tap,
+                              padding: const EdgeInsets.all(10.0),
+                              margin: EdgeInsets.only(left: 50, right: 50),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(25),
                                 gradient:
-                                    const LinearGradient(colors: <Color>[Colors.amber, Colors.red]),
+                                    const LinearGradient(colors: <Color>[Color.fromARGB(255, 255, 156, 7), Color.fromARGB(255, 244, 105, 54)]),
                               ),
                               child: Stack(children: [BigLineChart(), Container( 
                                 color: Colors.redAccent.withOpacity(0)
@@ -284,7 +288,7 @@ class EPSWidget extends StatelessWidget {
   }
 }
 
-}
+
 
 class PEWidget extends StatelessWidget {
   final double pe;
