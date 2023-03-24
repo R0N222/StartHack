@@ -82,7 +82,7 @@ class TextSeperatorWidget extends StatelessWidget {
   }
 }
 
-class StockListElement extends StatelessWidget {
+class StockListElement extends StatefulWidget {
   final String name;
   const StockListElement({
     super.key,
@@ -90,7 +90,20 @@ class StockListElement extends StatelessWidget {
   });
 
   @override
+  State<StockListElement> createState() => _StockListElementState();
+}
+
+class _StockListElementState extends State<StockListElement> {
+
+  String price = "-";
+ 
+  @override
   Widget build(BuildContext context) {
+    var pricewidget=Text(
+      price,
+      textAlign: TextAlign.left,
+      style: TextStyle(color: const Color.fromARGB(255, 26, 25, 28)),
+    );
     return Container(
       child: ListTile(
         title: Container(
@@ -101,7 +114,7 @@ class StockListElement extends StatelessWidget {
                 children: [
                   Container(
                     child: CircleAvatar(
-                      backgroundImage: NetworkImage('https://logo.clearbit.com/' + name + '.com'),
+                      backgroundImage: NetworkImage('https://logo.clearbit.com/' + widget.name + '.com'),
                     ),
                     margin: EdgeInsets.only(left: 20),
                   ),
@@ -109,14 +122,14 @@ class StockListElement extends StatelessWidget {
                     children: [
                       Container(
                         child: Text(
-                          name,
+                          widget.name,
                         ),
                         margin: EdgeInsets.only(left: 50, top: 15),
                         width: 100,
                       ),
                       Container(
                         child: Text(
-                          "19.99 €",
+                         price,
                           textAlign: TextAlign.left,
                           style: TextStyle(color: const Color.fromARGB(255, 26, 25, 28)),
                         ),
@@ -128,9 +141,10 @@ class StockListElement extends StatelessWidget {
                 ],
               ),
               FutureBuilder(
-                  future: getFlSpot(name),
+                  future: getFlSpot(widget.name),
                   builder: (context, snapshot) {
-                    if (snapshot.hasData) return ChartViewHomepageWidget(values: snapshot.data!, percent: 10);
+                    if (snapshot.hasData) {
+                      return ChartViewHomepageWidget(values: snapshot.data!, percent: 10);}
                     if (snapshot.hasError) return Text(("Error; " + snapshot.error.toString()));
                     return CircularProgressIndicator();
                   }),
@@ -145,7 +159,7 @@ class StockListElement extends StatelessWidget {
           ),
         ),
         onTap: () {
-          currentStock = name;
+          currentStock = widget.name;
           Navigator.pushNamed(context, '/stock');
         },
       ),
@@ -161,6 +175,7 @@ class ChartViewHomepageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+   double p = (((values[values.length-1].y/values[0].y-1.0)*10000).roundToDouble()/100);
     return Stack(
       children: [
         Container(
@@ -170,14 +185,14 @@ class ChartViewHomepageWidget extends StatelessWidget {
             ),
             width: 120),
         Container(
-          child: Text("$percent%", style: TextStyle(color: const Color.fromARGB(255, 26, 25, 28))),
+          child: Text("$p%", style: TextStyle(color: const Color.fromARGB(255, 26, 25, 28))),
           width: 90,
           height: 90,
           alignment: Alignment.bottomRight,
         ),
         Container(
           child: Container(
-            child: Image.asset(percent < 0 ? 'assets/images/ArrowDown.png' : 'assets/images/ArrowUp.png'),
+            child: Image.asset(p < 0 ? 'assets/images/ArrowDown.png' : 'assets/images/ArrowUp.png'),
             width: 9,
             height: 40,
           ),
