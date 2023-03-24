@@ -2,10 +2,14 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:starthack/Stock/APICall.dart';
 import 'package:starthack/Stock/Chart.dart';
 import 'package:starthack/shared/AI.dart';
 import 'package:starthack/shared/Data.dart';
+import 'package:http/http.dart' as http;
 
+double open=0.0;
+double close=0.0;
 class BigLineChart extends StatelessWidget {
   final List<Color> gradientColors = [
     const Color(0xff23b6e6),
@@ -32,6 +36,8 @@ class BigLineChart extends StatelessWidget {
             if (maxx < values[i].x) maxx = values[i].x;
             if (maxy < values[i].y) maxy = values[i].y;
           }
+          open=values[values.length-1].y;
+          close=values[0].y;
           return LineChart(
             LineChartData(
                 minX: minx,
@@ -68,11 +74,14 @@ class BigLineChart extends StatelessWidget {
 class StockScreenWidget extends StatefulWidget {
   final String name;
   final double percent;
-  const StockScreenWidget({super.key, required this.name, required this.percent});
+  final double price;
+  const StockScreenWidget({super.key, required this.name, required this.percent, required this.price});
 
   @override
   State<StockScreenWidget> createState() => _StockScreenWidgetState();
 }
+
+double eps_tmp=0.0;
 
 class _StockScreenWidgetState extends State<StockScreenWidget> {
   bool inwlist = false;
@@ -164,7 +173,7 @@ class _StockScreenWidgetState extends State<StockScreenWidget> {
                       margin: EdgeInsets.only(top: 100),
                     ),
                     Container(
-                      child: Text('191,15€', style: TextStyle(fontSize: 37, color: Color(0xfff7f7f7))),
+                      child: Text('${open}€', style: TextStyle(fontSize: 37, color: Color(0xfff7f7f7))),
                       margin: EdgeInsets.only(left: 40, top: 65),
                     ),
                     Container(
@@ -190,7 +199,15 @@ class _StockScreenWidgetState extends State<StockScreenWidget> {
               case 2:
                 return SectorWidget(sector: 'Automobile');
               case 3:
-                return EPSWidget(eps: 0.95);
+                void func() async {
+                  var response = await ApiService.getData(widget.name);
+                  eps_tmp = double.parse(response); 
+                  print("EPS: $eps_tmp");
+                }
+                func();
+                return EPSWidget(eps: eps_tmp);
+
+                
               case 4:
                 return PEWidget(pe: 50.58);
               default:
@@ -388,9 +405,9 @@ class SummaryWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(25),
                       gradient: const LinearGradient(colors: <Color>[Color.fromARGB(255, 255, 156, 7), Color.fromARGB(255, 244, 105, 54)]),
                     ),
-                    child: Image.asset('assets/images/AI_Icon.png', width: 90, height: 90)),
+                    child: Image.asset('assets/images/AI_Icon.png', width: 60, height: 60)),
                 margin: EdgeInsets.only(top: 20, right: 285),
-                height: 50),
+                height: 60),
             FutureBuilder(
               future: summarize(name),
               builder: (context, snapshot) {
@@ -408,7 +425,7 @@ class SummaryWidget extends StatelessWidget {
         ),
       ),
       color: Color(0xfff7f7f7),
-      height: 250,
+      height: 320,
     );
   }
 }
