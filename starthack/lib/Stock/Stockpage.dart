@@ -159,9 +159,7 @@ class _StockScreenWidgetState extends State<StockScreenWidget> {
                             borderRadius: BorderRadius.circular(25),
                             gradient: const LinearGradient(colors: <Color>[Color.fromARGB(255, 255, 156, 7), Color.fromARGB(255, 244, 105, 54)]),
                           ),
-                          child: Stack(
-                            children: [BigLineChart(), Container(color: Colors.redAccent.withOpacity(0))],
-                          )),
+                          child: BigLineChart()),
                       height: 170,
                       margin: EdgeInsets.only(top: 100),
                     ),
