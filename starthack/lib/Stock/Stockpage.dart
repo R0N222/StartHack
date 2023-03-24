@@ -64,7 +64,7 @@ class StockScreenWidget extends StatelessWidget {
     return Scaffold(
       body: Stack(children: [
         new Container(
-          color: Colors.white,
+          color: Color(0xfff7f7f7),
         ),
         ListView.builder(
           itemBuilder: (context, index) {
@@ -90,7 +90,18 @@ class StockScreenWidget extends StatelessWidget {
                             margin: EdgeInsets.only(top: 20)
                         ),
                         Container(
-                          child: Text((percent < 0 ? '-$percent%' : '+$percent%'), style: TextStyle(fontSize: 22, color: Color(0xffccc8d8))),
+                          child: Tooltip(
+                              message: 'This is the growth percentage for the certain period',
+                              showDuration: const Duration(seconds: 1000),
+                              triggerMode: TooltipTriggerMode.tap,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                gradient:
+                                    const LinearGradient(colors: <Color>[Colors.amber, Colors.red]),
+                              ),
+                              child: Text(
+                            (percent<0 ? '-$percent%' : '+$percent%'),style: TextStyle(fontSize: 22, color: Color(0xffccc8d8)))
+                          ),
                           width: 80,
                           margin: EdgeInsets.only(left: 60, top: 23),
                         ),
@@ -106,9 +117,21 @@ class StockScreenWidget extends StatelessWidget {
                       ],
                     ),
                     Container(
-                      child: BigLineChart(),
-                      height: 230,
-                      margin: EdgeInsets.only(top: 80),
+                       child: Tooltip(
+                              message: 'This is the growth percentage for the certain period',
+                              showDuration: const Duration(seconds: 1000),
+                              triggerMode: TooltipTriggerMode.tap,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                gradient:
+                                    const LinearGradient(colors: <Color>[Colors.amber, Colors.red]),
+                              ),
+                              child: Stack(children: [BigLineChart(), Container( 
+                                color: Colors.redAccent.withOpacity(0)
+                              )],)
+                          ),
+                      height: 170,
+                      margin: EdgeInsets.only(top: 100),
                     ),
                     Container(
                           child: Text('191,15€', style: TextStyle(fontSize: 37, color: Color(0xfff7f7f7))),
@@ -136,6 +159,10 @@ class StockScreenWidget extends StatelessWidget {
                 return SummaryWidget(name: name);
               case 2:
                 return SectorWidget(sector: 'Automobile');
+              case 3:
+                return EPSWidget(eps: 0.95);
+              case 4:
+                return PEWidget(pe: 50.58);
               default:
                 return Container(
                   height: 300,
@@ -161,11 +188,11 @@ class SectorWidget extends StatelessWidget {
           children: [
             Container(
               child: Text(sector, style: TextStyle(color: Color(0xff6e28f9), fontSize: 25)),
-              margin: EdgeInsets.only(left: 40, top: 40),
+              margin: EdgeInsets.only(left: 30, top: 40),
               ),
               Container(
               child: Text('Business sector', style: TextStyle(color: Color(0xff65616d), fontSize: 17)),
-              margin: EdgeInsets.only(left: 40, top: 73),
+              margin: EdgeInsets.only(left: 30, top: 73),
               ),
               Container(
               child: Image.asset('assets/images/EPS-Picture.png'),
@@ -204,12 +231,16 @@ class EPSWidget extends StatelessWidget {
         child: Stack(
           children: [
             Container(
-              child: Text('eps', style: TextStyle(color: Color(0xff6e28f9), fontSize: 25)),
-              margin: EdgeInsets.only(left: 40, top: 40),
+              child: Text('$eps€', style: TextStyle(color: Color(0xff6e28f9), fontSize: 28)),
+              margin: EdgeInsets.only(left: 30, top: 36),
               ),
               Container(
-              child: Text('Business sector', style: TextStyle(color: Color(0xff65616d), fontSize: 17)),
-              margin: EdgeInsets.only(left: 40, top: 73),
+              child: Text('eps', style: TextStyle(color: Color(0xff6e28f9), fontSize: 20)),
+              margin: EdgeInsets.only(left: 142, top: 43),
+              ),
+              Container(
+              child: Text('Earnings per share', style: TextStyle(color: Color(0xff65616d), fontSize: 17)),
+              margin: EdgeInsets.only(left: 30, top: 73),
               ),
               Container(
               child: Image.asset('assets/images/EPS-Picture.png'),
@@ -236,6 +267,55 @@ class EPSWidget extends StatelessWidget {
   }
 
 }
+
+class PEWidget extends StatelessWidget {
+  final double pe;
+
+  const PEWidget({super.key, required this.pe});
+
+  @override
+  Widget build(BuildContext context){
+    return Center(
+      child: Container(
+        child: Stack(
+          children: [
+            Container(
+              child: Text('$pe', style: TextStyle(color: Color(0xff6e28f9), fontSize: 28)),
+              margin: EdgeInsets.only(left: 30, top: 36),
+              ),
+              Container(
+              child: Text('P/E ratio', style: TextStyle(color: Color(0xff6e28f9), fontSize: 20)),
+              margin: EdgeInsets.only(left: 130, top: 43),
+              ),
+              Container(
+              child: Text('Price-to-Earnings Ratio', style: TextStyle(color: Color(0xff65616d), fontSize: 17)),
+              margin: EdgeInsets.only(left: 30, top: 73),
+              ),
+              Container(
+              child: Image.asset('assets/images/EPS-Picture.png'),
+              margin: EdgeInsets.only(left: 220, top: 15),
+              height: 110,
+              width: 110,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                color: Color(0xffF0F0F4),
+              )
+              )
+          ],
+        ),
+        height: 140,
+        width: 350,
+        margin: EdgeInsets.only(top: 30),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          color: Color(0xfff7f7f7),
+        )
+      ),
+      
+    );
+  }
+}
+
 class SummaryWidget extends StatelessWidget {
   final String name;
 
@@ -247,14 +327,14 @@ class SummaryWidget extends StatelessWidget {
       child: Center(
         child: Column(
           children: [
-            Container(child: Text("Summary")),
+            Container(child: Image.asset('assets/images/AI_Icon.png', width: 90, height: 90), margin: EdgeInsets.only(top: 20, right: 285), height: 50),
             FutureBuilder(
               future: summarize(name),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Container(
-                    child: Text(snapshot.data.toString()),
-                    margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                    child: Text(snapshot.data.toString(), style: TextStyle(fontSize: 18)),
+                    margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
                   );
                 } else {
                   return CircularProgressIndicator();
@@ -264,8 +344,9 @@ class SummaryWidget extends StatelessWidget {
           ],
         ),
       ),
-      color: Color.fromARGB(255, 230, 229, 229),
-      height: 200,
+      color: Color(0xfff7f7f7),
+      height: 250,
+
     );
   }
 }
