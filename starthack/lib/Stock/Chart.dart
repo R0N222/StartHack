@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class SmallLineChartWidget extends StatelessWidget {
+  final List<FlSpot> values;
   final List<Color> gradientColors = [
     const Color(0xff0E0741),
     const Color(0xff8236FD),
@@ -12,29 +13,35 @@ class SmallLineChartWidget extends StatelessWidget {
     Color.fromARGB(255, 240, 240, 244),
   ];
 
+  SmallLineChartWidget({super.key, required this.values});
+
   @override
   Widget build(BuildContext context) {
+    double minx = 10000000;
+    double maxx = 0;
+    double miny = 10000000;
+    double maxy = 0;
+    print("Values " + "${values.length}");
+    for (int i = 0; i < values.length; i++) {
+      if (minx > values[i].x) minx = values[i].x;
+      if (miny > values[i].y) miny = values[i].y;
+      if (maxx < values[i].x) maxx = values[i].x;
+      if (maxy < values[i].y) maxy = values[i].y;
+    }
+
     return LineChart(
       LineChartData(
-          minX: 0,
-          maxX: 11,
-          minY: 0,
-          maxY: 6,
+          minX: minx,
+          maxX: maxx,
+          minY: miny,
+          maxY: maxy,
           borderData: FlBorderData(border: Border(bottom: BorderSide.none)),
           titlesData: FlTitlesData(
             show: false,
           ),
           lineBarsData: [
             LineChartBarData(
-                spots: [
-                  FlSpot(0, 3),
-                  FlSpot(2.6, 2),
-                  FlSpot(4.9, 5),
-                  FlSpot(6.8, 2.5),
-                  FlSpot(8, 4),
-                  FlSpot(9.5, 3),
-                  FlSpot(11, 4),
-                ],
+                spots: values,
                 isCurved: true,
                 gradient: LinearGradient(colors: gradientColors),
                 barWidth: 3,

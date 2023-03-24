@@ -88,6 +88,8 @@ flutter:
     - assets/images/InWhitelistButton.png
     - assets/images/EPS-Picture.png
     - assets/images/
+    - lib/shared/assets/certificate.p12
+    - lib/shared/assets/signed-certificate.pem
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
